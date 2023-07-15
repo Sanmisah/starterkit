@@ -20,7 +20,7 @@
                 <form class="space-y-5">
                     <div>
                         <label for="actionName">Full Name:</label>
-                        <input id="actionName" type="text" placeholder="Enter Full Name" class="form-input" name="name" value="{{ $user->name }}"/>
+                        <input id="actionName" type="text" placeholder="Enter Full Name" class="form-input" name="name" value="{{ $user->name }}" />
                     </div>
                     <div>
                         <label for="actionEmail">Email:</label>
@@ -33,7 +33,15 @@
                         </div>
                     </div>
                     
-                    
+                    <div>
+                        <label for="actionPassword">Password:</label>
+                        <input id="actionPassword" type="password" placeholder="Enter Password" class="form-input" />
+                    </div>
+                    <div>
+                        <label for="actionCpass">Confirm Password:</label>
+                        <input id="actionCpass" type="password" placeholder="Enter Confirm Password"
+                            class="form-input" />
+                    </div>
                     <button type="submit" class="btn btn-primary !mt-6">Submit</button>
                 </form>
             </div>

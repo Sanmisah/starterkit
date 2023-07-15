@@ -404,8 +404,8 @@
                                 </div>
                             </div>
                         </li>
-                        <li>
-                            <a href="{{route('profile.edit')}}" class="dark:hover:text-white" @click="toggle">
+                        <!-- <li>
+                            <a href="" class="dark:hover:text-white" @click="toggle">
                                 <svg class="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" width="18" height="18"
                                     viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="12" cy="6" r="4" stroke="currentColor"
@@ -415,7 +415,7 @@
                                         stroke="currentColor" stroke-width="1.5" />
                                 </svg>
                                 {{ __('Profile') }}</a>
-                        </li>
+                        </li> -->
                         <!-- <li>
                             <a href="/apps/mailbox" class="dark:hover:text-white" @click="toggle">
                                 <svg class="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" width="18" height="18"
@@ -429,8 +429,8 @@
                                 </svg>
                                 Inbox</a>
                         </li> -->
-                        <!-- <li>
-                            <a href="/auth/boxed-lockscreen" class="dark:hover:text-white" @click="toggle">
+                        <li>
+                            <a href="/profile/change" class="dark:hover:text-white" @click="toggle">
                                 <svg class="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" width="18" height="18"
                                     viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -451,8 +451,8 @@
                                             fill="currentColor" />
                                     </g>
                                 </svg>
-                                Lock Screen</a>
-                        </li> -->
+                                Change Password</a>
+                        </li>
                         <form id="logout-form" method="POST" action="{{ route('logout') }}">
                             @csrf
                             <li class="border-t border-white-light dark:border-white-light/10">

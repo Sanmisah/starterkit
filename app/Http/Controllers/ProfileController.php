@@ -5,20 +5,62 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use App\Rules\MatchOldPassword;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
+    public function index()
+    {
+        $users = User::all();
+        return view('user.index', ['users' => $users]);
+    }
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request): View
+    public function edit(User $user)
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
+        return view('profile.edit')->with([
+            'user'  => $user
         ]);
+    }
+
+    public function change()
+    {
+        return view('profile.change');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required', new MatchOldPassword],
+            'new_password' => ['required'],
+            'new_confirm_password' => ['same:new_password'],
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            #Update Password
+            User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
+            
+            #Commit Transaction
+            DB::commit();
+
+            #Return To Profile page with success
+            return Redirect::route('dashboard')->with('succedd', 'Password has been changed');
+            
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return back()->with('error', $th->getMessage());
+        }
+       
     }
 
     /**
