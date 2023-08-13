@@ -1,4 +1,5 @@
 <x-layout.default>
+    
 
     <div x-data="contacts">
         <div class="flex items-center justify-between flex-wrap gap-4">
@@ -20,8 +21,68 @@
                             </svg>
                             Add Contact
                         </button>
-                        
-                    </div>                   
+                        <div class="fixed inset-0 bg-[black]/60 z-[999] overflow-y-auto hidden"
+                            :class="addContactModal && '!block'">
+                            <div class="flex items-center justify-center min-h-screen px-4"
+                                @click.self="addContactModal = false">
+                                <div x-show="addContactModal" x-transition x-transition.duration.300
+                                    class="panel border-0 p-0 rounded-lg overflow-hidden md:w-full max-w-lg w-[90%] my-8">
+                                    <button type="button"
+                                        class="absolute top-4 ltr:right-4 rtl:left-4 text-white-dark hover:text-dark"
+                                        @click="addContactModal = false">
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+                                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                                        </svg>
+                                    </button>
+                                    <h3 class="text-lg font-medium bg-[#fbfbfb] dark:bg-[#121c2c] ltr:pl-5 rtl:pr-5 py-3 ltr:pr-[50px] rtl:pl-[50px]"
+                                        x-text="params.id ? 'Edit Contact' : 'Add Contact'"></h3>
+                                    <div class="p-5">
+                                        <form method="POST" x-bind:action="`student/update`">
+                                        @csrf   
+                                            <div class="mb-5">
+                                                <label for="name">Name</label>
+                                                <input  type="hidden" name="id"
+                                                   x-model="params.id" />
+                                                <input id="name" type="text" name="name" placeholder="Enter Name"
+                                                    class="form-input" x-model="params.name" />
+                                            </div>
+                                            <div class="mb-5">
+                                                <label for="email">Email</label>
+                                                <input id="email" type="email" name="email" placeholder="Enter Email"
+                                                    class="form-input" x-model="params.email" />
+                                            </div>
+                                            <div class="mb-5">
+                                                <label for="number">Phone Number</label>
+                                                <input id="number" type="text" name="mobile" placeholder="Enter Phone Number"
+                                                    class="form-input" x-model="params.mobile" />
+                                            </div>
+                                            <div class="mb-5">
+                                                <label for="occupation">Gender</label>
+                                                <input id="occupation" type="text" name="gender" placeholder="Enter Gender"
+                                                    class="form-input" x-model="params.gender" />
+                                            </div>
+                                            <div class="mb-5">
+                                                <label for="address">Address</label>
+                                                <textarea id="address" name="address" rows="3" placeholder="Enter Address" class="form-textarea resize-none min-h-[130px]"
+                                                    x-model="params.address"></textarea>
+                                            </div>
+                                            <div class="flex justify-end items-center mt-8">
+                                                <button type="button" class="btn btn-outline-danger"
+                                                    @click="addContactModal = false">Cancel</button>
+                                                <button type="submit" class="btn btn-primary ltr:ml-4 rtl:mr-4"
+                                                    x-text="params.id ? 'Update' : 'Add'"></button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
                 </div>
 
                 <div class="relative ">
@@ -48,8 +109,11 @@
                     <table class="table-striped table-hover">
                         <thead>
                             <tr>
-                                <th>Name</th>
+                                <th @click="sort('name')">Name</th>
                                 <th>Email</th>
+                                <th>Mobile</th>
+                                <th>Address</th>
+                                <th>Gender</th>
                                 <th class="!text-center">Actions</th>
                             </tr>
                         </thead>
@@ -84,11 +148,20 @@
                                         </div>
                                     </td>
                                     <td x-text="contact.email"></td>
+                                    <td x-text="contact.mobile" class="whitespace-nowrap"></td>
+                                    <td x-text="contact.address" class="whitespace-nowrap"></td>
+                                    <td x-text="contact.gender" class="whitespace-nowrap"></td>
                                     <td>
                                         <div class="flex gap-4 items-center justify-center">
-                                            <a href="{{ route('profile.edit', ['user'=> auth()->user()->id ])  }}" class="btn btn-sm btn-outline-primary">Edit</a>
-                                            <button type="button" class="btn btn-sm btn-outline-danger"
-                                                @click="deleteUser(contact)">Delete</button>
+                                            <button type="button" class="btn btn-sm btn-outline-primary"
+                                                @click="editUser(contact)">Edit</button>
+                                            
+                                            <form x-bind:action="`student/delete/${contact.id}`" method="Post" onsubmit="return confirm('Do you really want to Delete this Record')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                            </form>
+                                           
                                         </div>
                                     </td>
                                 </tr>
@@ -97,8 +170,7 @@
                     </table>
                 </div>
             </template>
-        </div>
-     
+        </div>      
     </div>
 
     <script>
@@ -108,6 +180,9 @@
                     id: null,
                     name: '',
                     email: '',
+                    role: '',
+                    phone: '',
+                    location: ''
                 },
                 displayType: 'list',
                 addContactModal: false,
@@ -115,42 +190,31 @@
                     id: null,
                     name: '',
                     email: '',
+                    role: '',
+                    phone: '',
+                    location: ''
                 },
                 filterdContactsList: [],
                 searchUser: '',
+                sortCol:null,
+                sortAsc:false,
                 contactList: [
-                    @if(!empty($users))
-                    @foreach($users as $user)
+                    @if(!empty($students))
+                    @foreach($students as $student)
                     {
-                        id: 1,
-                        name: '{{ $user->name }}',
-                        email: '{{ $user->email }}',
+                        id: {{ $student->id}},
+                        path: 'profile-35.png',
+                        name: '{{ $student->name }}',
+                        email: '{{ $student->email }}',
+                        mobile: '{{ $student->mobile }}',
+                        address: '{{ $student->address }}',
+                        gender: '{{ $student->gender }}',
                     },
+                   
                     @endforeach
                     @endif
-                   
-                   
-               
                   
                 ],
-                perPage: 10,
-                perPageSelect: [10, 20, 30, 50, 100],
-                columns: [{
-                    select: 0,
-                    sort: "asc"
-                }, ],
-                firstLast: true,
-                firstText: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
-                lastText: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
-                prevText: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
-                nextText: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
-                labels: {
-                    perPage: "{select}"
-                },
-                layout: {
-                            top: "{search}",
-                            bottom: "{info}{select}{pager}",
-                        },
 
                 init() {
                     this.searchContacts();
@@ -161,9 +225,97 @@
                         .includes(this.searchUser.toLowerCase()));
                 },
 
-               
+                editUser(user) {
+                    this.params = this.defaultParams;
+                    if (user) {
+                        this.params = JSON.parse(JSON.stringify(user));
+                    }
+
+                    this.addContactModal = true;
+                },
+
+                saveUser() {
+                    if (!this.params.name) {
+                        this.showMessage('Name is required.', 'error');
+                        return true;
+                    }
+                    if (!this.params.email) {
+                        this.showMessage('Email is required.', 'error');
+                        return true;
+                    }
+                    if (!this.params.phone) {
+                        this.showMessage('Phone is required.', 'error');
+                        return true;
+                    }
+                    if (!this.params.role) {
+                        this.showMessage('Occupation is required.', 'error');
+                        return true;
+                    }
+
+                    if (this.params.id) {
+                        //update user
+                        let user = this.contactList.find((d) => d.id === this.params.id);
+                        user.name = this.params.name;
+                        user.email = this.params.email;
+                        user.role = this.params.role;
+                        user.phone = this.params.phone;
+                        user.location = this.params.location;
+                    } else {
+                        //add user
+                        let maxUserId = this.contactList.length ? this.contactList.reduce((max,
+                                character) => (character.id > max ? character.id : max), this
+                            .contactList[0].id) : 0;
+
+                        let user = {
+                            id: maxUserId + 1,
+                            path: 'profile-35.png',
+                            name: this.params.name,
+                            email: this.params.email,
+                            role: this.params.role,
+                            phone: this.params.phone,
+                            location: this.params.location,
+                            posts: 20,
+                            followers: '5K',
+                            following: 500,
+                        };
+                        this.contactList.splice(0, 0, user);
+                        this.searchContacts();
+                    }
+
+                    this.showMessage('User has been saved successfully.');
+                    this.addContactModal = false;
+                },
+
+                deleteUser(user) {
+                    this.contactList = this.contactList.filter((d) => d.id != user.id);
+                    this.searchContacts();
+                    this.showMessage('User has been deleted successfully.');
+                },
 
                
+
+                showMessage(msg = '', type = 'success') {
+                    const toast = window.Swal.mixin({
+                        toast: true,
+                        position: 'top',
+                        showConfirmButton: false,
+                        timer: 3000,
+                    });
+                    toast.fire({
+                        icon: type,
+                        title: msg,
+                        padding: '10px 20px',
+                    });
+                },
+                sort(col) {
+                    if(this.sortCol === col) this.sortAsc = !this.sortAsc;
+                    this.sortCol = col;
+                    this.cats.sort((a, b) => {
+                        if(a[this.sortCol] < b[this.sortCol]) return this.sortAsc?1:-1;
+                        if(a[this.sortCol] > b[this.sortCol]) return this.sortAsc?-1:1;
+                        return 0;
+                    });
+                },
             }));
         });
     </script>
