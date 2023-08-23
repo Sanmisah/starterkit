@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
@@ -26,9 +27,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        dd("hi");
         $users = User::all();
-        return view('users.index', ['users' => $users]);
+        return view('user.index', ['users' => $users]);
     }
 
     /**
@@ -82,8 +82,10 @@ class UserController extends Controller
   
     public function edit(User $user)
     {
-        return view('users.edit')->with([
-            'user'  => $user
+         $roles = Role::all();
+        return view('user.edit')->with([
+            'user'  => $user,
+            'roles' => $roles
         ]);
     }
 
@@ -92,30 +94,17 @@ class UserController extends Controller
         // Validations
         $request->validate([
             'name'    => 'required',
-            'password'     => 'required',
             'email'         => 'required|unique:users,email,'.$user->id.',id',
         ]);
 
-        DB::beginTransaction();
-        try {
+        $user->fill($request->all());    
+        $user->update();
 
-            // Store Data
-            $user_updated = User::whereId($user->id)->update([
-                'name'    => $request->first_name,
-                'password'     => $request->password,
-                'email'         => $request->email,
-            ]);
 
-           
-            // Commit And Redirected To Listing
-            DB::commit();
-            return redirect()->route('users.index')->with('success','User Updated Successfully.');
+       
+        return redirect()->route('users.index')->with('success','User Updated Successfully.');
 
-        } catch (\Throwable $th) {
-            // Rollback and return with Error
-            DB::rollBack();
-            return redirect()->back()->withInput()->with('error', $th->getMessage());
-        }
+      
     }
 
   

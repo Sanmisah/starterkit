@@ -17,10 +17,12 @@
                 <div class="flex items-center justify-between mb-5">
                     <h5 class="font-semibold text-lg dark:text-white-light">Recent Orders</h5>
                 </div>
-                <form class="space-y-5">
+                <form method="POST" action="{{ route('users.update', ['user'=>$user->id]) }}">
+                 @csrf
+                 @method('PUT')
                     <div>
                         <label for="actionName">Full Name:</label>
-                        <input id="actionName" type="text" placeholder="Enter Full Name" class="form-input" name="name" value="{{ $user->name }}" />
+                        <input id="actionName" type="text" placeholder="Enter Full Name" class="form-input" name="name" value="{{ $user->name }}"/>
                     </div>
                     <div>
                         <label for="actionEmail">Email:</label>
@@ -32,16 +34,22 @@
                                 class="form-input ltr:rounded-l-none rtl:rounded-r-none" />
                         </div>
                     </div>
+                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                        <span style="color:red;">*</span>Role</label>
+                        <select class="form-control form-control-user @error('role_id') is-invalid @enderror" name="role_id">
+                            <option selected disabled>Select Role</option>
+                            @foreach ($roles as $role)
+                                <option value="{{$role->id}}" 
+                                    {{old('role_id') ? ((old('role_id') == $role->id) ? 'selected' : '') : (($user->role_id == $role->id) ? 'selected' : '')}}>
+                                    {{$role->name}}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('role_id')
+                            <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
                     
-                    <div>
-                        <label for="actionPassword">Password:</label>
-                        <input id="actionPassword" type="password" placeholder="Enter Password" class="form-input" />
-                    </div>
-                    <div>
-                        <label for="actionCpass">Confirm Password:</label>
-                        <input id="actionCpass" type="password" placeholder="Enter Confirm Password"
-                            class="form-input" />
-                    </div>
                     <button type="submit" class="btn btn-primary !mt-6">Submit</button>
                 </form>
             </div>

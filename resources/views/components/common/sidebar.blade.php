@@ -763,7 +763,13 @@
                     </button>
                     <ul x-cloak x-show="activeDropdown === 'users'" x-collapse class="sub-menu text-gray-500">
                         <li>
-                            <a href="/users">Profile</a>
+                            <a href="/users">Users</a>
+                        </li>
+                         <li>
+                            <a href="/roles">Roles</a>
+                        </li> 
+                        <li>
+                            <a href="/permissions">Permissions</a>
                         </li>
                         <li>
                             <a href="/users/user-account-settings">Account Settings</a>

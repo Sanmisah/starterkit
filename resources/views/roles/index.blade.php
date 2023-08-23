@@ -19,11 +19,11 @@
                 init() {
                     this.datatable = new simpleDatatables.DataTable('#myTable', {
                         data: {
-                            headings: ["Name",  "Email", "Action"],
+                            headings: ["Name",  "Guard Name", "Action"],
                             data: [
-                                @if(!empty($users))
-                                @foreach($users as $user)
-                                [ '{{ $user->name }}', '{{ $user->email }}', '<a href=""  class="btn btn-sm btn-outline-danger"> Delete</a> &nbsp; <a href="{{ route("users.edit", ["user"=>$user->id]) }}"  class="btn btn-sm btn-outline-primary"> Edit</a>' 
+                                @if(!empty($roles))
+                                @foreach($roles as $role)
+                                [ '{{ $role->name }}', '{{ $role->guard_name }}', '<a href=""  class="btn btn-sm btn-outline-danger"> Delete</a> &nbsp; <a href="{{ route("roles.edit", ["role"=>$role->id]) }}"  class="btn btn-sm btn-outline-primary"> Edit</a>' 
                                 ],
                                 @endforeach
                                 @endif
