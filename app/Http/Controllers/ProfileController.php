@@ -40,6 +40,7 @@ class ProfileController extends Controller
 
     public function change()
     {
+        dd("hi");
         return view('profile.change');
     }
 

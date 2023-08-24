@@ -18,6 +18,7 @@ class Student extends Model
         'mobile',
         'address',
         'gender',
+        'dob'
     ];
 
     
