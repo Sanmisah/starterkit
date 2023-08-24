@@ -137,3 +137,4 @@
         }));
     });
 </script>
+<?php /**PATH C:\@Projects\starterkit\resources\views/components/common/sidebar.blade.php ENDPATH**/ ?>

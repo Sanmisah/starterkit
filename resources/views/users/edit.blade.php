@@ -6,7 +6,7 @@
                 <a href="javascript:;" class="text-primary hover:underline">Users</a>
             </li>
             <li class="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
-                <span>Account Settings</span>
+                <span>User Edit</span>
             </li>
         </ul>
         <div class="pt-5">
@@ -19,7 +19,7 @@
                 </div>
                 <form method="POST" action="{{ route('users.update', ['user'=>$user->id]) }}">
                  @csrf
-                 @method('PUT')
+                 @method('PATCH')
                     <div>
                         <label for="actionName">Full Name:</label>
                         <input id="actionName" type="text" placeholder="Enter Full Name" class="form-input" name="name" value="{{ $user->name }}"/>
@@ -36,7 +36,7 @@
                     </div>
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Role</label>
-                        <select class="form-control form-control-user @error('role_id') is-invalid @enderror" name="role_id">
+                        <select class="form-control form-control-user @error('role') is-invalid @enderror" name="role">
                             <option selected disabled>Select Role</option>
                             @foreach ($roles as $role)
                                 <option value="{{$role->id}}" 

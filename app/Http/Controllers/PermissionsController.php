@@ -23,7 +23,7 @@ class PermissionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create() 
-    {   
+    { 
         Artisan::call("permission:create-permission-routes");
         return redirect()->route('permissions.index');
     }

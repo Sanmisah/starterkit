@@ -1,8 +1,16 @@
-<x-layout.default>
+<?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.layout.default','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('layout.default'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
     <script src="/assets/js/simple-datatables.js"></script>
     <div x-data="multicolumn">        
         <div class="lead" style="display:inline-block;">
-            <a href="{{ route('permissions.create') }}" class="btn btn-warning rounded-full">
+            <a href="<?php echo e(route('permissions.create')); ?>" class="btn btn-warning rounded-full">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>Generate
@@ -12,23 +20,23 @@
             <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">Permission
             </h5>
             <table id="myTable" class="whitespace-nowrap">
-                @foreach ($permissions as $permission)
+                <?php $__currentLoopData = $permissions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $permission): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>                    
-                    <td>{{ $permission->name }}</td>
-                    <td>{{ $permission->guard_name }}</td>
+                    <td><?php echo e($permission->name); ?></td>
+                    <td><?php echo e($permission->guard_name); ?></td>
                     <!-- <td>
                         <div style="display:inline-block;">
-                            <a class="btn btn-sm btn-outline-primary" href="{{ route('permissions.edit', $permission->id)}}" >Edit</a>
-                            <form class="space-y-5" action="{{ route('permissions.destroy',$permission->id) }}"   method="POST">                            
-                                @csrf
-                                @method('DELETE')
+                            <a class="btn btn-sm btn-outline-primary" href="<?php echo e(route('permissions.edit', $permission->id)); ?>" >Edit</a>
+                            <form class="space-y-5" action="<?php echo e(route('permissions.destroy',$permission->id)); ?>"   method="POST">                            
+                                <?php echo csrf_field(); ?>
+                                <?php echo method_field('DELETE'); ?>
                                 <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
                             </form>
                         </div>
                     </td> -->
                  
                 </tr>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </table>
         </div>
     </div>
@@ -67,4 +75,10 @@
     </script>
 
 
-</x-layout.default>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
+<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
+<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php endif; ?>
+<?php /**PATH C:\@Projects\starterkit\resources\views/permissions/index.blade.php ENDPATH**/ ?>
