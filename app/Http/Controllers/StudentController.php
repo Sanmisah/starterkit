@@ -19,13 +19,13 @@ class StudentController extends Controller
     public function index(Request $request)
     {
         $students = Student::all();
-        return view('user.add', ['students' => $students]);
+        return view('students.view', ['students' => $students]);
     }
 
     public function create()
     {
         $students = Student::all();
-        return view('user.add', ['students' => $students]);
+        return view('students.index', ['students' => $students]);
     }
     /**
      * Display the user's profile form.

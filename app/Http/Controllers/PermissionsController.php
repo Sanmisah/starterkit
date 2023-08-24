@@ -1,28 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Artisan;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
 
 class PermissionsController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-   
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
-    {
-        $permissions = Permission::paginate(10);
+    {   
+        $permissions = Permission::all();
 
         return view('permissions.index', [
             'permissions' => $permissions
@@ -30,13 +18,14 @@ class PermissionsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
+     * Show form for creating permissions
+     * 
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        return view('permissions.add');
+    public function create() 
+    {   
+        Artisan::call("permission:create-permission-routes");
+        return redirect()->route('permissions.index');
     }
 
     /**
@@ -46,98 +35,59 @@ class PermissionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        DB::beginTransaction();
-        try {
-            $request->validate([
-                'name' => 'required',
-                'guard_name' => 'required'
-            ]);
-    
-            Permission::create($request->all());
-
-            DB::commit();
-            return redirect()->route('permissions.index')->with('success','Permissions created successfully.');
-        } catch (\Throwable $th) {
-            DB::rollback();
-            return redirect()->route('permissions.add')->with('error',$th->getMessage());
-        }
-        
+    {   
+        $request->validate([
+            'name' => 'required|unique:users,name',
+            'guard_name' => 'required',
+        ]);
+        $input = $request->all();
+      
+        Permission::create($input);
+        return redirect()->route('permissions.index');
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(Permission $permission)
     {
         //
     }
-
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Permission  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Permission $permission)
     {
-        $permission = Permission::whereId($id)->first();
-
-        return view('permissions.edit', ['permission' => $permission]);
+        return view('permissions.edit',compact('permission'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Permission $permission)
     {
-        DB::beginTransaction();
-        try {
-            $request->validate([
-                'name' => 'required',
-                'guard_name' => 'required'
-            ]);
-            
-            $permission = Permission::whereId($id)->first();
+        $request->validate([
+            'name' => 'required|unique:permissions,name,'.$permission->id
+        ]);
 
-            $permission->name = $request->name;
-            $permission->guard_name = $request->guard_name;
-            $permission->save();
-            
-            
-            DB::commit();
-            return redirect()->route('permissions.index')->with('success','Permissions updated successfully.');
-        } catch (\Throwable $th) {
-            DB::rollback();
-            return redirect()->route('permissions.edit',['permission' => $permission])->with('error',$th->getMessage());
-        }
+        $permission->update($request->only('name'));
+
+        return redirect()->route('permissions.index')
+            ->withSuccess(__('Permission updated successfully.'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Permission $permission)
     {
-        DB::beginTransaction();
-        try {
-    
-            Permission::whereId($id)->delete();
-            
-            DB::commit();
-            return redirect()->route('permissions.index')->with('success','Permissions deleted successfully.');
-        } catch (\Throwable $th) {
-            DB::rollback();
-            return redirect()->route('permissions.index')->with('error',$th->getMessage());
-        }
+        $permission->delete();
+        return redirect()->route('permissions.index');
     }
 }

@@ -31,13 +31,13 @@ Route::get('/dashboard2', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/profile/{user}', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::get('/profile/change', [ProfileController::class, 'change'])->name('profile.change');
-    Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change');
+    Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.changePassword');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/student', [StudentController::class, 'index'])->name('student.index');
     Route::post('/student/update', [StudentController::class, 'update'])->name('student.update');
-    Route::delete('/student/delete/{student}', [StudentController::class, 'destroy'])->name('student.destroy');
+    Route::delete('/student/{student}', [StudentController::class, 'destroy'])->name('student.destroy');
     
 });
 
