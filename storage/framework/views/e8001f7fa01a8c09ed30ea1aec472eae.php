@@ -1,49 +1,57 @@
-<x-layout.default>
-    <script src="/assets/js/simple-datatables.js"></script>
-    <div x-data="multicolumn">
-    <div class="lead" style="display:inline-block;">
-            <a href="{{ route('users.create')}}" class="btn btn-warning rounded-full">
+<?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.layout.default','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('layout.default'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+    <script src="/assets/js/simple-datatables.js"></script>    
+     <?php $__env->slot('header', null, []); ?> 
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <?php echo e(__('Dashboard')); ?>
+
+        </h2>
+     <?php $__env->endSlot(); ?>  
+    <div x-data="multicolumn">   
+        <?php if(auth()->guard()->check()): ?>
+        <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin', 'User'])): ?>  
+        <div class="lead" style="display:inline-block;">
+            <a href="<?php echo e(route('contacts.create')); ?>" class="btn btn-warning rounded-full">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>Add
             </a>
         </div>
+        <?php endif; ?>
+        <?php endif; ?>
         <div class="panel mt-6 table-responsive">
-            <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">Users List
-            </h5>
-            <table id="myTable" class="whitespace-nowrap table-hover">
-                @foreach ($users as $user)
+        <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">Contact List
+            </h5>            
+            <table class="whitespace-nowrap table-hover" id="myTable">                
+                <?php $__currentLoopData = $contacts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $i=>$contact): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
-                    <td>{{ ($user->name) }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td> 
-                        @if(!empty($user->roles))   
-                        @foreach($user->roles as $role)                   
-                        <span class="badge whitespace-nowrap badge-outline-info">{{ $role->name }}</span>
-                        @endforeach
-                        @endif
-                    </td>
-                    @if($user->active == '1')
-                    <td><span class="badge bg-primary">Active</span></td>
-                    @else
-                    <td><span class="badge bg-danger">Inactive</span></td>
-                    @endif
+                    <td><?php echo e($contact->name); ?></td>
+                    <td><?php echo e($contact->email); ?></td>
+                    <td style="white-space: pre-wrap"><?php echo e($contact->message); ?></td>
+                    <?php if(auth()->guard()->check()): ?>
+                    <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin', 'User'])): ?>  
                     <td class="text-center">
-                    <ul class="flex items-center justify-center gap-2">
-                            <li >
-                                <a href="{{ route('users.edit', $user->id)}}" x-tooltip="Edit">
+                        <ul class="flex items-center gap-2" >
+                            <li style="display: inline-block;vertical-align:top;">
+                                <a href="<?php echo e(route('contacts.edit', $contact->id)); ?>" x-tooltip="Edit">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 text-success">
                                     <path d="M15.2869 3.15178L14.3601 4.07866L5.83882 12.5999L5.83881 12.5999C5.26166 13.1771 4.97308 13.4656 4.7249 13.7838C4.43213 14.1592 4.18114 14.5653 3.97634 14.995C3.80273 15.3593 3.67368 15.7465 3.41556 16.5208L2.32181 19.8021L2.05445 20.6042C1.92743 20.9852 2.0266 21.4053 2.31063 21.6894C2.59466 21.9734 3.01478 22.0726 3.39584 21.9456L4.19792 21.6782L7.47918 20.5844L7.47919 20.5844C8.25353 20.3263 8.6407 20.1973 9.00498 20.0237C9.43469 19.8189 9.84082 19.5679 10.2162 19.2751C10.5344 19.0269 10.8229 18.7383 11.4001 18.1612L11.4001 18.1612L19.9213 9.63993L20.8482 8.71306C22.3839 7.17735 22.3839 4.68748 20.8482 3.15178C19.3125 1.61607 16.8226 1.61607 15.2869 3.15178Z" stroke="currentColor" stroke-width="1.5" />
                                     <path opacity="0.5" d="M14.36 4.07812C14.36 4.07812 14.4759 6.04774 16.2138 7.78564C17.9517 9.52354 19.9213 9.6394 19.9213 9.6394M4.19789 21.6777L2.32178 19.8015" stroke="currentColor" stroke-width="1.5" />
                                 </svg>
                                 </a>
                             </li>
-                          
-                            <li >
-                                <form action="{{ route('users.destroy',$user->id) }}"   method="POST">                            
-                                    @csrf
-                                    @method('DELETE')
-                                    <button id="del"  x-tooltip="Delete">
+                            <li style="display: inline-block;vertical-align:top;">
+                                <form action="<?php echo e(route('contacts.destroy',$contact->id)); ?>"   method="POST">                            
+                                    <?php echo csrf_field(); ?>
+                                    <?php echo method_field('DELETE'); ?>
+                                    <button id="del">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-danger">
                                         <path d="M20.5001 6H3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                                         <path d="M18.8334 8.5L18.3735 15.3991C18.1965 18.054 18.108 19.3815 17.243 20.1907C16.378 21 15.0476 21 12.3868 21H11.6134C8.9526 21 7.6222 21 6.75719 20.1907C5.89218 19.3815 5.80368 18.054 5.62669 15.3991L5.16675 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
@@ -55,14 +63,15 @@
                                 </form>    
                             </li>
                         </ul>
-                    </td> <td class="text-center">
-                                           
+                    </td>  
+                    <?php endif; ?>
+                    <?php endif; ?>                 
                 </tr>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </table>
+            
         </div>
     </div>
-
     <script>
         document.addEventListener("alpine:init", () => {
             Alpine.data("multicolumn", () => ({
@@ -70,10 +79,10 @@
                 init() {
                     this.datatable = new simpleDatatables.DataTable('#myTable', {
                         data: {
-                            headings: ["Name",  "Email",  "Role", "Status", "Action"],
+                            headings: ["Name",  "Email", "Message" , <?php if(auth()->guard()->check()): ?>  <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin', 'User'])): ?> "Action" <?php endif; ?> <?php endif; ?>],//["Name",  "Email", "Message",  "Action"]
                         },
                         searchable: true,
-                        perPage: 10,
+                        perPage: 5,
                         perPageSelect: [10, 20, 30, 50, 100],
                         columns: [{
                             select: 0,
@@ -96,6 +105,10 @@
             }));
         });
     </script>
-
-
-</x-layout.default>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
+<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
+<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php endif; ?>
+<?php /**PATH /home/sanmisha/@Projects/starterkit/resources/views/contacts/contacts.blade.php ENDPATH**/ ?>

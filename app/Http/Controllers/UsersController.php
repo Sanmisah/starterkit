@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Http\Requests\StoreUserRequest;
@@ -36,7 +37,8 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        $roles = Role::all();
+        return view('users.create')->with(['roles' => $roles]);
     }
 
     /**
@@ -50,17 +52,19 @@ class UsersController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required',
-            'username' => 'required',
             'password' => 'required',
         ]);
 
         $input = User::create([
             'name' => $request->name,
-            'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'active' =>true,
         ]);  
+        $user->syncRoles($request->get('role'));
+        return redirect()->route('users.index')
+        ->withSuccess(__('User updated successfully.'));
+
     }
 
    
@@ -75,9 +79,18 @@ class UsersController extends Controller
             'roles' => $roles
         ]);
     }
-    public function update(User $user, UpdateUserRequest $request) 
+    public function update(User $user, Request $request) 
     {
-        $user->update($request->validated());
+        $request->validate([
+            'name' => 'required',
+            'role' => 'required',
+            'email' => 'required',
+            'active' => 'required',
+        ]);    
+       
+        
+        $user->update($request->all());
+
 
         $user->syncRoles($request->get('role'));
 

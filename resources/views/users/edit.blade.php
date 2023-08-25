@@ -12,16 +12,14 @@
         <div class="pt-5">
             <div class="flex items-center justify-between mb-5">
                 <h5 class="font-semibold text-lg dark:text-white-light">Settings</h5>
-            </div>
-            <div class="panel">
-                <div class="flex items-center justify-between mb-5">
-                    <h5 class="font-semibold text-lg dark:text-white-light">Recent Orders</h5>
-                </div>
-                <form method="POST" action="{{ route('users.update', ['user'=>$user->id]) }}">
-                 @csrf
-                 @method('PATCH')
+            </div>           
+               
+            <form method="POST" action="{{ route('users.update', ['user'=>$user->id]) }}">
+                @csrf
+                @method('PATCH')
+            <div class="panel grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label for="actionName">Full Name:</label>
+                        <label for="actionName">Full Name: </label>
                         <input id="actionName" type="text" placeholder="Enter Full Name" class="form-input" name="name" value="{{ $user->name }}"/>
                     </div>
                     <div>
@@ -34,26 +32,60 @@
                                 class="form-input ltr:rounded-l-none rtl:rounded-r-none" />
                         </div>
                     </div>
+                    <div>
+                        <label for="actionEmail">Password:</label>
+                        <div class="flex flex-1">
+                           
+                            <input id="actionEmail" type="password" placeholder=""  name="password" value="{{ $user->password }}"
+                                class="form-input ltr:rounded-l-none rtl:rounded-r-none" />
+                        </div>
+                    </div>
+                       
+                  
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Role</label>
-                        <select class="form-control form-control-user @error('role') is-invalid @enderror" name="role">
+                        <label for="actionRole">Role:</label>
+                        <select class="selectize  @error('role') is-invalid @enderror" name="role">
                             <option selected disabled>Select Role</option>
                             @foreach ($roles as $role)
                                 <option value="{{$role->id}}" 
-                                    {{old('role_id') ? ((old('role_id') == $role->id) ? 'selected' : '') : (($user->role_id == $role->id) ? 'selected' : '')}}>
+                                    {{old('role') ? ((old('role') == $role->id) ? 'selected' : '') : ''}}>
                                     {{$role->name}}
                                 </option>
                             @endforeach
                         </select>
-                        @error('role_id')
+                        
+                        @error('role')
                             <span class="text-danger">{{$message}}</span>
                         @enderror
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary !mt-6">Submit</button>
-                </form>
+                    </div>   
+                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                        <label for="actionRole">Active:</label>
+                        <select class="selectize  @error('active') is-invalid @enderror" name="active">
+                            <option selected disabled>Select Role</option>
+                            <option value=1>Active</option>
+                            <option value=0>Deactive</option>
+                           
+                        </select>
+                        
+                        @error('active')
+                            <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>   
+                           
+                   
             </div>
+                <button type="submit" class="btn btn-primary !mt-6">Submit</button>
+            </form>
         </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(e) {
+            // default
+            var els = document.querySelectorAll(".selectize");
+            els.forEach(function(select) {
+                NiceSelect.bind(select);
+            });
+        });
+    </script>
 
 </x-layout.default>

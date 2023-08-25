@@ -9,9 +9,9 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Traits\CreatedUpdatedBy;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
-use App\Models\StudentDetail;
 
-class Student extends Model
+
+class Contact extends Model
 {
     use HasApiTokens, HasFactory, Notifiable, CreatedUpdatedBy, LogsActivity;
 
@@ -19,21 +19,14 @@ class Student extends Model
     protected $fillable = [
         'name',
         'email',
-        'mobile',
-        'address',
-        'gender',
-        'dob'
+        'message',
     ];
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-        ->logOnly(['name', 'email', 'mobile', 'address', 'gender', 'dob']);
+        ->logOnly(['name', 'email', 'message']);
         // Chain fluent methods for configuration options
-    }
-
-    public function StudentDetails()
-    {
-        return $this->hasMany(StudentDetails::class);
     }
 
     

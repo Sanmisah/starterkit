@@ -1,5 +1,13 @@
-<x-layout.default>
-<link rel="stylesheet" href="{{ Vite::asset('resources/css/flatpickr.min.css') }}">
+<?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.layout.default','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('layout.default'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+<link rel="stylesheet" href="<?php echo e(Vite::asset('resources/css/flatpickr.min.css')); ?>">
     <script src="/assets/js/flatpickr.js"></script>
     <script src="/assets/js/simple-datatables.js"></script>
 
@@ -19,7 +27,7 @@
                 <button type="submit" class="btn btn-primary" x-on:click="rangeChange()">Search</button>
             </div>
             <div>
-                <a href="{{ route('students.create')}}" class="btn btn-warning rounded-full">
+                <a href="<?php echo e(route('students.create')); ?>" class="btn btn-warning rounded-full">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>Add
@@ -43,19 +51,19 @@
                 toDate: '',
                 dateSearch: '',
                 allData: [
-                    @if(!empty($students))
-                    @foreach($students as $student)
+                    <?php if(!empty($students)): ?>
+                    <?php $__currentLoopData = $students; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $student): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     {                                  
-                        name: '{{ $student->name }}',
-                        email:  '{{ $student->email }}',
-                        mobile: '{{ $student->mobile }}', 
-                        address: '{{ $student->address }}',
-                        gender: '{{ $student->gender }}', 
-                        dob: '{{ $student->dob }}',
+                        name: '<?php echo e($student->name); ?>',
+                        email:  '<?php echo e($student->email); ?>',
+                        mobile: '<?php echo e($student->mobile); ?>', 
+                        address: '<?php echo e($student->address); ?>',
+                        gender: '<?php echo e($student->gender); ?>', 
+                        dob: '<?php echo e($student->dob); ?>',
                     },
                 
-                    @endforeach
-                    @endif
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    <?php endif; ?>
                 ],
                 filterData: [],
 
@@ -176,4 +184,10 @@
     </script>
 
 
-</x-layout.default>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
+<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
+<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php endif; ?>
+<?php /**PATH /home/sanmisha/@Projects/starterkit/resources/views/students/view.blade.php ENDPATH**/ ?>

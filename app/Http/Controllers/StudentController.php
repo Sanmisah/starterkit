@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\Student;
+use App\Models\StudentDetail;
 
 class StudentController extends Controller
 {
@@ -24,21 +25,51 @@ class StudentController extends Controller
 
     public function create()
     {
-        $students = Student::all();
-        return view('students.index', ['students' => $students]);
-    }
-    /**
-     * Display the user's profile form.
-     */
-    public function edit(User $user)
-    {
-        return view('profile.edit')->with([
-            'user'  => $user
-        ]);
+        return view('students.create');
     }
 
+    public function store(Request $request)
+    {
+       
+        $input = $request->all();
+
+        $request->validate([
+            'name' => 'required',            
+            'email' => 'required|email:rfc,dns|unique:students,email',
+            'mobile' => 'required',
+            'address' => 'required',
+            'gender' => 'required',           
+        ]);
+       
+      
+        $student = Student::create($input);    
+        $data = $request->collect('student_details');
+        foreach($data as $record){
+            StudentDetail::create([
+                'student_id' => $student->id,
+                'subject' => $record['subject'],
+                'marks' => $record['marks'],
+                'grade' => $record['grade'],
+            ]);
+            
+        }   
+
+       
+
+        return redirect()->route('students.index')->with('success', 'Student has been saved successfully');
+
+    }
+
+    public function edit(Student $user)
+    {
+        return view('students.edit');
+
+        return view('students.edit')->with([
+            'student'  => $student
+        ]);
+    }   
    
-    public function update(Request $request)
+    public function update(Request $request, Student $student)
     {
        
         $input = $request->all();
@@ -51,19 +82,14 @@ class StudentController extends Controller
             'gender' => 'required',           
         ]);
 
-        if(!empty($request->id)){
-            $student = Student::where('id', $request->id)->first();  
-            $student->fill($input);    
-            $student->update();
-
-        } else {
-            $student = Student::create($input);
-        }
        
+        $student->fill($input);    
+        $student->update();        
 
         return redirect()->route('student.index')->with('success', 'Student has been saved successfully');
 
     }
+
 
 
     /**

@@ -10,7 +10,7 @@
             </li>
         </ul>
         <div class="pt-5">           
-            <div class="panel">                
+            <div class="panel grid grid-cols-1 sm:grid-cols-2 gap-4">                
                 <form class="space-y-5" action="{{ route('roles.update',$role->id) }}" method="POST">
                     @csrf
                     @method('PUT')                    
@@ -54,22 +54,3 @@
     </div>
 
 </x-layout.default>
-@section('scripts')
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('[name="all_permission"]').on('click', function() {
-
-                if($(this).is(':checked')) {
-                    $.each($('.permission'), function() {
-                        $(this).prop('checked',true);
-                    });
-                } else {
-                    $.each($('.permission'), function() {
-                        $(this).prop('checked',false);
-                    });
-                }
-                
-            });
-        });
-    </script>
-@endsection

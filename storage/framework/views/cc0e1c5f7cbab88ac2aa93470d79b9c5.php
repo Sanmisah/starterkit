@@ -90,18 +90,18 @@
                         <li>
                             <a href="/contacts">Contacts</a>
                         </li>
-                        @auth
-                        @role(['Admin', 'User'])
+                        <?php if(auth()->guard()->check()): ?>
+                        <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin', 'User'])): ?>
                         <li>
                             <a href="/students">Students</a>
                         </li>
-                        @endrole
-                        @endauth
+                        <?php endif; ?>
+                        <?php endif; ?>
                     </ul>
                 </li>
 
-                @auth
-                @role('Admin')
+                <?php if(auth()->guard()->check()): ?>
+                <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', 'Admin')): ?>
                 <li class="menu nav-item">
                     <button type="button" class="nav-link group" :class="{ 'active': activeDropdown === 'users' }"
                         @click="activeDropdown === 'users' ? activeDropdown = null : activeDropdown = 'users'">
@@ -141,8 +141,8 @@
                         </li>
                     </ul>
                 </li>
-                @endrole
-                @endauth
+                <?php endif; ?>
+                <?php endif; ?>
               
             </ul>
         </div>
@@ -171,3 +171,4 @@
         }));
     });
 </script>
+<?php /**PATH /home/sanmisha/@Projects/starterkit/resources/views/components/common/sidebar.blade.php ENDPATH**/ ?>
