@@ -33,7 +33,13 @@ class Student extends Model
 
     public function StudentDetails()
     {
-        return $this->hasMany(StudentDetails::class);
+        return $this->hasMany(StudentDetail::class);
+    }
+
+    protected static function booted () {
+        static::deleting(function(Student $student) { 
+             $student->StudentDetails()->delete();
+        });
     }
 
     

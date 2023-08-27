@@ -1,9 +1,17 @@
-<x-layout.default>
+<?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.layout.default','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('layout.default'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
 
     <div>
         <ul class="flex space-x-2 rtl:space-x-reverse">
             <li>
-                <a href="{{ route('students.index') }}" class="text-primary hover:underline">Students</a>
+                <a href="<?php echo e(route('students.index')); ?>" class="text-primary hover:underline">Students</a>
             </li>
             <li class="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
                 <span>Create</span>
@@ -13,50 +21,92 @@
             <div class="flex items-center justify-between mb-5">
                 <h5 class="font-semibold text-lg dark:text-white-light">Add Students</h5>
             </div>
-            <form class="space-y-5" action="{{ route('students.store') }}" method="POST">
-             @csrf
+            <form class="space-y-5" action="<?php echo e(route('students.store')); ?>" method="POST">
+             <?php echo csrf_field(); ?>
                 <div class="panel">
                     <div class=" grid grid-cols-3 gap-4">               
                         <div>
                             <label >Name:</label>
                             <input type="text" placeholder="Enter Name" class="form-input" name="name" required autofocus />
-                            @error('name')
-                                <span class="text-danger">{{$message}}</span>
-                            @enderror
+                            <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <span class="text-danger"><?php echo e($message); ?></span>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
                         <div>
                             <label >Email:</label>
                             <input type="email" placeholder="Enter Email" class="form-input" name="email" required autofocus />
-                            @error('email')
-                                <span class="text-danger">{{$message}}</span>
-                            @enderror
+                            <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <span class="text-danger"><?php echo e($message); ?></span>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
                         <div>
                             <label >Mobile:</label>
                             <input type="text" placeholder="Enter Mobile" class="form-input" name="mobile" required autofocus />
-                            @error('mobile')
-                                <span class="text-danger">{{$message}}</span>
-                            @enderror
+                            <?php $__errorArgs = ['mobile'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <span class="text-danger"><?php echo e($message); ?></span>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>      
                         <div >
                             <label for="actionRole">Gender:</label>
-                            <select class="selectize  @error('gender') is-invalid @enderror" name="gender">
+                            <select class="selectize  <?php $__errorArgs = ['gender'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" name="gender">
                                 <option selected disabled>Select </option>
                                 <option value='Female'>Female</option>
                                 <option value='Male'>Male</option>
                                 
                             </select>
                             
-                            @error('gender')
-                                <span class="text-danger">{{$message}}</span>
-                            @enderror
+                            <?php $__errorArgs = ['gender'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <span class="text-danger"><?php echo e($message); ?></span>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>               
                         <div>
                             <label >D.O.B:</label>
                             <input type="date" placeholder="Enter Date" class="form-input" name="dob" required autofocus />
-                            @error('dob')
-                                <span class="text-danger">{{$message}}</span>
-                            @enderror
+                            <?php $__errorArgs = ['dob'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <span class="text-danger"><?php echo e($message); ?></span>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>                
                         
                     
@@ -65,9 +115,16 @@
                         <div>
                             <label >Address:</label>
                             <input type="text" placeholder="Enter Address" class="form-input" name="address" required autofocus />
-                            @error('address')
-                                <span class="text-danger">{{$message}}</span>
-                            @enderror
+                            <?php $__errorArgs = ['address'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <span class="text-danger"><?php echo e($message); ?></span>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>    
                         
                     </div>
@@ -106,11 +163,18 @@
                                                     <template x-for="(studentDetail, i) in studentDetails" :key="i">
                                                         <tr class="align-top border-b border-[#e0e6ed] dark:border-[#1b2e4b]">
                                                             <td>
-                                                                <select x-model="studentDetail.contact_id" class="selectize  @error('contact_id') is-invalid @enderror" name="contact_id" x-bind:name="`student_details[${studentDetail.id}][contact_id]`" @change="show()">
+                                                                <select x-model="studentDetail.contact_id" class="selectize  <?php $__errorArgs = ['contact_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" name="contact_id" x-bind:name="`student_details[${studentDetail.id}][contact_id]`" @change="show()">
                                                                     <option selected disabled>Select </option>
-                                                                    @foreach($contacts as $contact)
-                                                                    <option value='{{ $contact->id }}'>{{ $contact->name }}</option>
-                                                                    @endforeach
+                                                                    <?php $__currentLoopData = $contacts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $contact): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                    <option value='<?php echo e($contact->id); ?>'><?php echo e($contact->name); ?></option>
+                                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                     
                                                                 </select>
                                                             </td>
@@ -205,4 +269,10 @@
         });
     </script>
 
-</x-layout.default>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
+<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
+<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php endif; ?>
+<?php /**PATH C:\@Projects\starterkit\resources\views/students/create.blade.php ENDPATH**/ ?>

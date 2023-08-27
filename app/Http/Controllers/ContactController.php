@@ -43,6 +43,12 @@ class ContactController extends Controller
         return view('contacts.edit',compact('contact'));
     }
 
+    public function show(Contact $contact)
+    {
+        $contacts = Contact::all();
+        return $contact;
+    }
+
     public function update(Request $request, Contact $contact): RedirectResponse
     {
         $request->validate([

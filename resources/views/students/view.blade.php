@@ -29,16 +29,15 @@
        
         <div class="panel mt-6">
             <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light"> student
-            </h5>
-            
+            </h5>                  
            
-            <table id="myTable" class="whitespace-nowrap"></table>
+            <table  id="myTable" class="whitespace-nowrap"></table>
         </div>
     </div>
 
     <script>
         document.addEventListener("alpine:init", () => {
-            Alpine.data("multicolumn", () => ({
+            Alpine.data("multicolumn", () => ({                
                 fromDate: '',
                 toDate: '',
                 dateSearch: '',
@@ -52,6 +51,7 @@
                         address: '{{ $student->address }}',
                         gender: '{{ $student->gender }}', 
                         dob: '{{ $student->dob }}',
+                        action: '<a href=""  class="btn btn-sm btn-outline-danger"> Delete</a> &nbsp; <a href="{{ route("students.edit", ["student"=>$student->id]) }}"  class="btn btn-sm btn-outline-primary"> Edit</a>',
                     },
                 
                     @endforeach
@@ -93,10 +93,11 @@
                 },
                 initializeTable() {
                    
-                    this.datatable = new simpleDatatables.DataTable('#myTable', {
+                    this.datatable = new simpleDatatables.DataTable('#myTable', {                       
+                       
                         data: {
                             headings: ['Name', 'Email', 'Mobile', 'Address', 'Gender',
-                                'DOB'
+                                'DOB', 'Action'
                             ],
                             data: this.dataArr,
                         },

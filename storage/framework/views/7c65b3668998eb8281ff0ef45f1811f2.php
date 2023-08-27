@@ -10,36 +10,29 @@
     <script src="/assets/js/simple-datatables.js"></script>
     <div x-data="multicolumn">
     <div class="lead" style="display:inline-block;">
-            <a href="<?php echo e(route('users.create')); ?>" class="btn btn-warning rounded-full">
+            <a href="<?php echo e(route('students.create')); ?>" class="btn btn-warning rounded-full">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>Add
             </a>
         </div>
         <div class="panel mt-6 table-responsive">
-            <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">Users List
+            <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">Students List
             </h5>
             <table id="myTable" class="whitespace-nowrap table-hover">
-                <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php $__currentLoopData = $students; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $student): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
-                    <td><?php echo e(($user->name)); ?></td>
-                    <td><?php echo e($user->email); ?></td>
-                    <td> 
-                        <?php if(!empty($user->roles)): ?>   
-                        <?php $__currentLoopData = $user->roles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $role): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>                   
-                        <span class="badge whitespace-nowrap badge-outline-info"><?php echo e($role->name); ?></span>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                        <?php endif; ?>
-                    </td>
-                    <?php if($user->active == '1'): ?>
-                    <td><span class="badge bg-primary">Active</span></td>
-                    <?php else: ?>
-                    <td><span class="badge bg-danger">Inactive</span></td>
-                    <?php endif; ?>
+                    <td><?php echo e(($student->name)); ?></td>
+                    <td><?php echo e($student->email); ?></td>
+                    <td><?php echo e($student->mobile); ?></td>
+                    <td><?php echo e($student->address); ?></td>
+                    <td><?php echo e($student->gender); ?></td>
+                    <td><?php echo e($student->dob); ?></td>
+                 
                     <td class="text-center">
                     <ul class="flex items-center justify-center gap-2">
                             <li >
-                                <a href="<?php echo e(route('users.edit', $user->id)); ?>" x-tooltip="Edit">
+                                <a href="<?php echo e(route('students.edit', $student->id)); ?>" x-tooltip="Edit">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 text-success">
                                     <path d="M15.2869 3.15178L14.3601 4.07866L5.83882 12.5999L5.83881 12.5999C5.26166 13.1771 4.97308 13.4656 4.7249 13.7838C4.43213 14.1592 4.18114 14.5653 3.97634 14.995C3.80273 15.3593 3.67368 15.7465 3.41556 16.5208L2.32181 19.8021L2.05445 20.6042C1.92743 20.9852 2.0266 21.4053 2.31063 21.6894C2.59466 21.9734 3.01478 22.0726 3.39584 21.9456L4.19792 21.6782L7.47918 20.5844L7.47919 20.5844C8.25353 20.3263 8.6407 20.1973 9.00498 20.0237C9.43469 19.8189 9.84082 19.5679 10.2162 19.2751C10.5344 19.0269 10.8229 18.7383 11.4001 18.1612L11.4001 18.1612L19.9213 9.63993L20.8482 8.71306C22.3839 7.17735 22.3839 4.68748 20.8482 3.15178C19.3125 1.61607 16.8226 1.61607 15.2869 3.15178Z" stroke="currentColor" stroke-width="1.5" />
                                     <path opacity="0.5" d="M14.36 4.07812C14.36 4.07812 14.4759 6.04774 16.2138 7.78564C17.9517 9.52354 19.9213 9.6394 19.9213 9.6394M4.19789 21.6777L2.32178 19.8015" stroke="currentColor" stroke-width="1.5" />
@@ -48,7 +41,7 @@
                             </li>
                           
                             <li >
-                                <form action="<?php echo e(route('users.destroy',$user->id)); ?>"   method="POST">                            
+                                <form action="<?php echo e(route('students.destroy',$student->id)); ?>"   method="POST">                            
                                     <?php echo csrf_field(); ?>
                                     <?php echo method_field('DELETE'); ?>
                                     <button id="del"  x-tooltip="Delete">
@@ -78,7 +71,8 @@
                 init() {
                     this.datatable = new simpleDatatables.DataTable('#myTable', {
                         data: {
-                            headings: ["Name",  "Email",  "Role", "Status", "Action"],
+                            headings: ['Name', 'Email', 'Mobile', 'Address', 'Gender',
+                                'DOB', 'Action'],
                         },
                         searchable: true,
                         perPage: 10,
@@ -112,4 +106,4 @@
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
-<?php /**PATH C:\@Projects\starterkit\resources\views/users/index.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\@Projects\starterkit\resources\views/students/index.blade.php ENDPATH**/ ?>
