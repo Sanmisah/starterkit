@@ -82,7 +82,7 @@
                             headings: ["Name",  "Email", "Message" , <?php if(auth()->guard()->check()): ?>  <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin', 'User'])): ?> "Action" <?php endif; ?> <?php endif; ?>],//["Name",  "Email", "Message",  "Action"]
                         },
                         searchable: true,
-                        perPage: 5,
+                        perPage: 20,
                         perPageSelect: [10, 20, 30, 50, 100],
                         columns: [{
                             select: 0,

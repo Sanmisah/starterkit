@@ -9,12 +9,25 @@
 <?php $component->withAttributes([]); ?>
     <script src="/assets/js/simple-datatables.js"></script>
     <div x-data="multicolumn">
-    <div class="lead" style="display:inline-block;">
-            <a href="<?php echo e(route('students.create')); ?>" class="btn btn-warning rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>Add
-            </a>
+        <div class="flex items-center gap-3">
+            <div>
+                <input id="fromDate" type="text" placeholder="From Date..." class="form-input"
+                    x-model="fromDate" />
+            </div>
+            <div >
+                <input id="toDate" type="text" placeholder="To Date..." class="form-input"
+                    x-model="toDate"  />
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary" x-on:click="searchByDate()">Search</button>
+            </div>
+            <div>
+                <a href="<?php echo e(route('students.create')); ?>" class="btn btn-warning rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>Add
+                </a>
+            </div>
         </div>
         <div class="panel mt-6 table-responsive">
             <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">Students List
@@ -68,14 +81,22 @@
         document.addEventListener("alpine:init", () => {
             Alpine.data("multicolumn", () => ({
                 datatable: null,
+                fromDate: '',
+                toDate: '',
                 init() {
+                    flatpickr(document.getElementById('fromDate'), {
+                        dateFormat: 'd/m/Y',
+                    });
+                    flatpickr(document.getElementById('toDate'), {
+                        dateFormat: 'd/m/Y',
+                    });
                     this.datatable = new simpleDatatables.DataTable('#myTable', {
                         data: {
                             headings: ['Name', 'Email', 'Mobile', 'Address', 'Gender',
                                 'DOB', 'Action'],
                         },
                         searchable: true,
-                        perPage: 10,
+                        perPage: 20,
                         perPageSelect: [10, 20, 30, 50, 100],
                         columns: [{
                             select: 0,
@@ -94,7 +115,12 @@
                             bottom: "{info}{select}{pager}",
                         },
                     })
-                }
+                },
+
+                searchByDate(){
+                    console.log("hi");
+                    
+                },
             }));
         });
     </script>

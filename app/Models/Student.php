@@ -10,6 +10,7 @@ use App\Traits\CreatedUpdatedBy;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 use App\Models\StudentDetail;
+use Carbon\Carbon;
 
 class Student extends Model
 {
@@ -41,6 +42,17 @@ class Student extends Model
              $student->StudentDetails()->delete();
         });
     }
+
+    public function setDobAttribute($value)
+    {
+        $this->attributes['dob'] = Carbon::createFromFormat('d/m/Y', $value);
+    }
+
+    public function getDobAttribute($value)
+    {
+        return Carbon::parse($value)->format('d/m/Y');
+    }
+
 
     
 }

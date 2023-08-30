@@ -73,7 +73,7 @@
                             headings: ["Name",  "Email", "Message" , @auth  @role(['Admin', 'User']) "Action" @endrole @endauth],//["Name",  "Email", "Message",  "Action"]
                         },
                         searchable: true,
-                        perPage: 5,
+                        perPage: 20,
                         perPageSelect: [10, 20, 30, 50, 100],
                         columns: [{
                             select: 0,

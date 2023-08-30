@@ -1,5 +1,6 @@
 <x-layout.default>
 
+
     <div>
         <ul class="flex space-x-2 rtl:space-x-reverse">
             <li>
@@ -54,7 +55,7 @@
                         </div>               
                         <div>
                             <label >D.O.B:</label>
-                            <input type="date" placeholder="Enter Date" class="form-input" name="dob" required autofocus value="{{ $student->dob }}" />
+                            <input type="text" placeholder="Enter Date" class="form-input", id='dob'  name="dob" required autofocus value="{{ $student->dob }}" />
                             @error('dob')
                                 <span class="text-danger">{{$message}}</span>
                             @enderror
@@ -162,12 +163,17 @@
             Alpine.data('StudentDetails', () => ({
                 studentDetails: [],
                
+               
                 init() {
+                    flatpickr(document.getElementById('dob'), {
+                        dateFormat: 'd/m/Y',
+                    });
+                    let maxId = 0;
 
                     @if($student['StudentDetails'])
                     @foreach($student['StudentDetails'] as $i=>$details)
                     this.studentDetails.push({
-                        i: '{{ $i }}' + 1,
+                        i: ++maxId,
                         id: '{{ $details->id }}',
                         subject: '{{ $details->subject }}',
                         marks: '{{ $details->marks }}',
@@ -178,18 +184,20 @@
                     @endforeach
                     @endif
 
+                  
+
                 },  
                                
                 
 
-                addItem() {
-                    let maxId = 0;
+                addItem() {     
+                    let maxId = 0;            
                     if (this.studentDetails && this.studentDetails.length) {
-                        maxId = this.studentDetails.reduce((max, character) => (character.id > max ? character
-                            .id : max), this.studentDetails[0].id);
+                        maxId = this.studentDetails.reduce((max, character) => (character.i > max ? character
+                            .i : max), this.studentDetails[0].i);
                     }
                     this.studentDetails.push({
-                        i: maxId + 1,
+                        i: ++maxId,
                         id: '',
                         subject: '',
                         marks: 0,
@@ -201,6 +209,14 @@
                     this.studentDetails = this.studentDetails.filter((d) => d.id != studentDetail.id);
                 }
             }));
+        });
+
+        document.addEventListener("DOMContentLoaded", function(e) {
+            // default
+            var els = document.querySelectorAll(".selectize");
+            els.forEach(function(select) {
+                NiceSelect.bind(select);
+            });
         });
     </script>
 

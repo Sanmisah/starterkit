@@ -15,6 +15,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap"
         rel="stylesheet" />
 
+    
+    <link rel="stylesheet" href="{{ Vite::asset('resources/css/flatpickr.min.css') }}">
+    <link rel="stylesheet" href="{{ Vite::asset('resources/css/highlight.min.css') }}">
+    <link rel='stylesheet' type='text/css' href='{{ Vite::asset('resources/css/nice-select2.css') }}'>
+
     <script src="/assets/js/perfect-scrollbar.min.js"></script>
     <script defer src="/assets/js/popper.min.js"></script>
     <script defer src="/assets/js/tippy-bundle.umd.min.js"></script>
@@ -115,6 +120,9 @@
     <script defer src="/assets/js/alpine.min.js"></script>
     <script src="/assets/js/custom.js"></script>
     <script src="/assets/js/app.js"></script>
+    <script src="/assets/js/flatpickr.js"></script>
+    <script src="/assets/js/nice-select2.js"></script>
+    <script src="/assets/js/highlight.min.js"></script>
 </body>
 
 </html>
