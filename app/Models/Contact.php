@@ -18,8 +18,10 @@ class Contact extends Model
    
     protected $fillable = [
         'name',
+        'pancard',
         'email',
         'message',
+        'aadhar',
     ];
 
     public function getActivitylogOptions(): LogOptions
@@ -28,6 +30,7 @@ class Contact extends Model
         ->logOnly(['name', 'email', 'message']);
         // Chain fluent methods for configuration options
     }
+
 
     
 }

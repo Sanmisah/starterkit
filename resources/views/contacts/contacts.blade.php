@@ -24,6 +24,8 @@
                 @foreach ($contacts as $i=>$contact)
                 <tr>
                     <td>{{ $contact->name }}</td>
+                    <td>{{ $contact->pancard }}</td>
+                    <td>{{ $contact->aadhar }}</td>
                     <td>{{ $contact->email }}</td>
                     <td style="white-space: pre-wrap">{{ $contact->message }}</td>
                     @auth
@@ -70,7 +72,7 @@
                 init() {
                     this.datatable = new simpleDatatables.DataTable('#myTable', {
                         data: {
-                            headings: ["Name",  "Email", "Message" , @auth  @role(['Admin', 'User']) "Action" @endrole @endauth],//["Name",  "Email", "Message",  "Action"]
+                            headings: ["Name", 'Pancard', 'Aadhar',  "Email", "Message" , @auth  @role(['Admin', 'User']) "Action" @endrole @endauth],//["Name",  "Email", "Message",  "Action"]
                         },
                         searchable: true,
                         perPage: 20,

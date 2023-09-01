@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\Contact;
+use App\Rules\ValidatePancard;
+use App\Rules\ValidateAadhar;
 
 class ContactController extends Controller
 {
@@ -30,6 +32,7 @@ class ContactController extends Controller
         $request->validate([
             'name' => 'required',
             'message' => 'required',
+            'pancard'=> ['required', new ValidatePancard],
             'email' => 'required',
         ]);
         $input = $request->all();
@@ -49,13 +52,16 @@ class ContactController extends Controller
         return $contact;
     }
 
-    public function update(Request $request, Contact $contact): RedirectResponse
+    public function update(Request $request, Contact $contact)
     {
+        
         $request->validate([
             'name' => 'required',
-            'message' => 'required',
+            'pancard'=> ['required', new ValidatePancard],
+            'aadhar' => ['required', new ValidateAadhar],
             'email' => 'required',
         ]);    
+       
         $input = $request->all();
         $contact->update($input);
         
