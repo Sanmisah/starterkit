@@ -18,7 +18,7 @@
             </li>
         </ul>
         <div class="pt-5">           
-            <div class="panel">                
+            <div class="panel grid grid-cols-1 sm:grid-cols-2 gap-4">                
                 <form class="space-y-5" action="<?php echo e(route('roles.update',$role->id)); ?>" method="POST">
                     <?php echo csrf_field(); ?>
                     <?php echo method_field('PUT'); ?>                    
@@ -68,22 +68,4 @@
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
-<?php $__env->startSection('scripts'); ?>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('[name="all_permission"]').on('click', function() {
-
-                if($(this).is(':checked')) {
-                    $.each($('.permission'), function() {
-                        $(this).prop('checked',true);
-                    });
-                } else {
-                    $.each($('.permission'), function() {
-                        $(this).prop('checked',false);
-                    });
-                }
-                
-            });
-        });
-    </script>
-<?php $__env->stopSection(); ?><?php /**PATH C:\@Projects\starterkit\resources\views/roles/edit.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\@Projects\starterkit\resources\views/roles/edit.blade.php ENDPATH**/ ?>

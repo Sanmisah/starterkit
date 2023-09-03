@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 class StoreUserRequest extends FormRequest
 {
@@ -26,7 +27,14 @@ class StoreUserRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => 'required|email:rfc,dns|unique:users,email',
-            'username' => 'required|unique:users,username',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'A title is required',
+            'email.required' => 'A message is required',
         ];
     }
 }

@@ -90,6 +90,12 @@
                         <li>
                             <a href="/contacts">Contacts</a>
                         </li>
+                        <li>
+                            <a href="/country">Country</a>
+                        </li>
+                        <li>
+                            <a href="/state">State</a>
+                        </li>
                         <?php if(auth()->guard()->check()): ?>
                         <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin', 'User'])): ?>
                         <li>

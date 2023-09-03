@@ -1,10 +1,10 @@
 <div class="panel">
 <div class="grid grid-cols-1 ">
-@if (Session::has('success'))
+<?php if(Session::has('success')): ?>
 
     <div class="flex items-center p-3.5 rounded text-white bg-success"  x-data="{ open: true }"  x-show="open">
         <span class="ltr:pr-2 rtl:pl-2">
-            <strong class="ltr:mr-1 rtl:ml-1">{{ session('success') }}</strong>
+            <strong class="ltr:mr-1 rtl:ml-1"><?php echo e(session('success')); ?></strong>
         </span>
         <button type="button" class="ltr:ml-auto rtl:mr-auto hover:opacity-80"  x-on:click="open = ! open">
 
@@ -17,13 +17,13 @@
         </button>
     </div>
     
-@endif
+<?php endif; ?>
 
-@if (Session::has('error'))
+<?php if(Session::has('error')): ?>
                
 <div class="flex items-center p-3.5 rounded text-white bg-success"  x-data="{ open: true }"  x-show="open">
         <span class="ltr:pr-2 rtl:pl-2">
-            <strong class="ltr:mr-1 rtl:ml-1">{{ session('error') }}</strong>
+            <strong class="ltr:mr-1 rtl:ml-1"><?php echo e(session('error')); ?></strong>
         </span>
         <button type="button" class="ltr:ml-auto rtl:mr-auto hover:opacity-80"  x-on:click="open = ! open">
 
@@ -36,7 +36,7 @@
         </button>
     </div>
 
-@endif
+<?php endif; ?>
 </div>
                 <template x-if="codeArr.includes('code3')">
                     <pre class="code overflow-auto !bg-[#191e3a] p-4 rounded-md text-white">
@@ -59,4 +59,4 @@
     &lt;/div&gt;
     </pre>
                 </template>
-            </div>
+            </div><?php /**PATH C:\@Projects\starterkit\resources\views/components/common/alert.blade.php ENDPATH**/ ?>

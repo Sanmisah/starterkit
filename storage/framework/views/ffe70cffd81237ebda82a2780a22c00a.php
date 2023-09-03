@@ -83,6 +83,7 @@
 
 
                     this.filterData = dt;
+                    console.log( this.filterData);
 
                     this.dataArr = [];
                     this.setTableData();
@@ -162,10 +163,10 @@
                 // },
                 initDatePicker() {
                     flatpickr(document.getElementById('minvalue'), {
-                        dateFormat: 'Y-m-d',
+                        dateFormat: 'd/m/Y',
                     });
                     flatpickr(document.getElementById('maxvalue'), {
-                        dateFormat: 'Y-m-d',
+                        dateFormat: 'd/m/Y',
                     });
 
                 }

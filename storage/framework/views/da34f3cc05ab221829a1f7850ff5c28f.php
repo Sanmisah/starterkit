@@ -67,9 +67,9 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                         </div>      
-                        <div >
+                        <div  x-data="genders" >
                             <label for="actionRole">Gender:</label>
-                            <select class="selectize  <?php $__errorArgs = ['gender'];
+                            <!-- <select class="selectize  <?php $__errorArgs = ['gender'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -81,7 +81,16 @@ unset($__errorArgs, $__bag); ?>" name="gender">
                                 <option value='Female'>Female</option>
                                 <option value='Male'>Male</option>
                                 
-                            </select>
+                            </select> -->
+                            <select id="gender" name="gender" autocomplete="gender">
+                                    <template x-for="gender in genders">
+                                    <option 
+                                        :value='gender.key'
+                                        x-text="gender.name"
+                                    >
+                                    </option>
+                                    </template>
+                                  </select>
                             
                             <?php $__errorArgs = ['gender'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -96,7 +105,7 @@ unset($__errorArgs, $__bag); ?>
                         </div>               
                         <div>
                             <label >D.O.B:</label>
-                            <input type="date" placeholder="Enter Date" class="form-input" name="dob" required autofocus />
+                            <input type="text" placeholder="Enter Date" class="form-input" name="dob" id="dob"  required autofocus />
                             <?php $__errorArgs = ['dob'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -127,18 +136,19 @@ endif;
 unset($__errorArgs, $__bag); ?>
                         </div>    
                         
+                        
                     </div>
                 </div>
                 <div class="panel table-responsive">
-                    <div class="flex items-center justify-between mb-5">
+                    <div class="flex items-center justify-between">
                         <h5 class="font-semibold text-lg dark:text-white-light"> Students Details</h5>
                     </div>
+                    <hr class="border-[#e0e6ed] dark:border-[#1b2e4b] mt-2">
 
                     <div x-data="StudentDetails">
                         <div class="flex xl:flex-row flex-col gap-2.5">
-                            <div class="panel px-0 flex-1 py-6 ltr:xl:mr-6 rtl:xl:ml-6">
-                            
-                                <hr class="border-[#e0e6ed] dark:border-[#1b2e4b] my-6">
+                            <div class="panel px-0 flex-1 py-1 ltr:xl:mr-6 rtl:xl:ml-6">                           
+                               
                             
                                 <div class="mt-8">
                                     <template x-if="studentDetails">
@@ -163,14 +173,7 @@ unset($__errorArgs, $__bag); ?>
                                                     <template x-for="(studentDetail, i) in studentDetails" :key="i">
                                                         <tr class="align-top border-b border-[#e0e6ed] dark:border-[#1b2e4b]">
                                                             <td>
-                                                                <select x-model="studentDetail.contact_id" class="selectize  <?php $__errorArgs = ['contact_id'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>" name="contact_id" x-bind:name="`student_details[${studentDetail.id}][contact_id]`" @change="show()">
+                                                                <select x-model="studentDetail.contact_id" class="selectize" name="contact_id" x-bind:name="`student_details[${studentDetail.id}][contact_id]`" @change="show()">
                                                                     <option selected disabled>Select </option>
                                                                     <?php $__currentLoopData = $contacts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $contact): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                     <option value='<?php echo e($contact->id); ?>'><?php echo e($contact->name); ?></option>
@@ -232,7 +235,12 @@ unset($__errorArgs, $__bag); ?>" name="contact_id" x-bind:name="`student_details
         document.addEventListener("alpine:init", () => {
             Alpine.data('StudentDetails', () => ({
                 studentDetails: [],
-                               
+                init() {
+
+                    flatpickr(document.getElementById('dob'), {
+                        dateFormat: 'd/m/Y',
+                    });
+                },                             
                 
 
                 addItem() {
@@ -251,21 +259,29 @@ unset($__errorArgs, $__bag); ?>" name="contact_id" x-bind:name="`student_details
                 },
               
                 async show() {
-                    this.result = await (await fetch('/contacts/'+this.studentDetail.contact_id, {
+                    genders = await (await fetch('/contacts', {
                     method: 'GET',
                     headers: {
                         'Content-type': 'application/json;',
                     },
                     })).json();
-                    this.studentDetail.subject = this.result.name;
+                    // this.studentDetail.subject = this.result.name;
 
-                    console.log(this.result.name);
+                    // console.log(this.result.name);
                 },
 
                 removeItem(studentDetail) {
                     this.studentDetails = this.studentDetails.filter((d) => d.id != studentDetail.id);
                 }
             }));
+        });
+
+        document.addEventListener("DOMContentLoaded", function(e) {
+            // default
+            var els = document.querySelectorAll(".selectize");
+            els.forEach(function(select) {
+                NiceSelect.bind(select);
+            });
         });
     </script>
 

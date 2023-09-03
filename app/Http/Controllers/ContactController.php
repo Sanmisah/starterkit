@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\Contact;
+use App\Models\Country;
 use App\Rules\ValidatePancard;
 use App\Rules\ValidateAadhar;
 
@@ -24,7 +25,8 @@ class ContactController extends Controller
 
     public function create()
     {
-        return view('contacts.create');
+        $countries = Country::all();
+        return view('contacts.create')->with(['countries'=>$countries]);
     }
 
     public function store(Request $request)
@@ -38,6 +40,7 @@ class ContactController extends Controller
         $input = $request->all();
       
         Contact::create($input);
+        $request->session()->flash('success', 'Contact are saved successfully!');
         return redirect()->route('contacts.index');
     }
 
@@ -64,6 +67,7 @@ class ContactController extends Controller
        
         $input = $request->all();
         $contact->update($input);
+        $request->session()->flash('success', 'Contact are saved successfully!');
         
         return redirect()->route('contacts.index');
     }

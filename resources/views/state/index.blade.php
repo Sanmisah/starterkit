@@ -1,62 +1,35 @@
-<?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.layout.default','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
-<?php $component->withName('layout.default'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
-<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
-<?php endif; ?>
-<?php $component->withAttributes([]); ?>
+<x-layout.default>
     <script src="/assets/js/simple-datatables.js"></script>
     <div x-data="multicolumn">
-        <div class="flex items-center gap-3">
-            <div>
-                <input id="fromDate" type="text" placeholder="From Date..." class="form-input"
-                    x-model="fromDate" />
-            </div>
-            <div >
-                <input id="toDate" type="text" placeholder="To Date..." class="form-input"
-                    x-model="toDate"  />
-            </div>
-            <div>
-                <button type="submit" class="btn btn-primary" x-on:click="searchByDate()">Search</button>
-            </div>
-            <div>
-                <a href="<?php echo e(route('students.create')); ?>" class="btn btn-warning rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>Add
-                </a>
-            </div>
+        <div class="lead" style="display:inline-block;">
+            <a href="{{ route('state.create')}}" class="btn btn-warning rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>Add
+            </a>
         </div>
         <div class="panel mt-6 table-responsive">
-            <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">Students List
+            <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">States
             </h5>
-            <table id="myTable" class="whitespace-nowrap table-hover">
-                <?php $__currentLoopData = $students; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $student): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <table id="myTable" class="whitespace-nowrap">
+                @foreach ($states as $state)
                 <tr>
-                    <td><?php echo e(($student->name)); ?></td>
-                    <td><?php echo e($student->email); ?></td>
-                    <td><?php echo e($student->mobile); ?></td>
-                    <td><?php echo e($student->address); ?></td>
-                    <td><?php echo e($student->gender); ?></td>
-                    <td><?php echo e($student->dob); ?></td>
-                 
+                    <td>{{ $state->country->name }}</td>         
+                    <td>{{ $state->name }}</td>           
                     <td class="text-center">
                     <ul class="flex items-center justify-center gap-2">
                             <li >
-                                <a href="<?php echo e(route('students.edit', $student->id)); ?>" x-tooltip="Edit">
+                                <a href="{{ route('state.edit', $state->id)}}" x-tooltip="Edit">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 text-success">
                                     <path d="M15.2869 3.15178L14.3601 4.07866L5.83882 12.5999L5.83881 12.5999C5.26166 13.1771 4.97308 13.4656 4.7249 13.7838C4.43213 14.1592 4.18114 14.5653 3.97634 14.995C3.80273 15.3593 3.67368 15.7465 3.41556 16.5208L2.32181 19.8021L2.05445 20.6042C1.92743 20.9852 2.0266 21.4053 2.31063 21.6894C2.59466 21.9734 3.01478 22.0726 3.39584 21.9456L4.19792 21.6782L7.47918 20.5844L7.47919 20.5844C8.25353 20.3263 8.6407 20.1973 9.00498 20.0237C9.43469 19.8189 9.84082 19.5679 10.2162 19.2751C10.5344 19.0269 10.8229 18.7383 11.4001 18.1612L11.4001 18.1612L19.9213 9.63993L20.8482 8.71306C22.3839 7.17735 22.3839 4.68748 20.8482 3.15178C19.3125 1.61607 16.8226 1.61607 15.2869 3.15178Z" stroke="currentColor" stroke-width="1.5" />
                                     <path opacity="0.5" d="M14.36 4.07812C14.36 4.07812 14.4759 6.04774 16.2138 7.78564C17.9517 9.52354 19.9213 9.6394 19.9213 9.6394M4.19789 21.6777L2.32178 19.8015" stroke="currentColor" stroke-width="1.5" />
                                 </svg>
                                 </a>
-                            </li>
-                          
+                            </li>                          
                             <li >
-                                <form action="<?php echo e(route('students.destroy',$student->id)); ?>"   method="POST">                            
-                                    <?php echo csrf_field(); ?>
-                                    <?php echo method_field('DELETE'); ?>
+                                <form action="{{ route('state.destroy',$state->id) }}"   method="POST">                            
+                                    @csrf
+                                    @method('DELETE')
                                     <button id="del"  x-tooltip="Delete">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-danger">
                                         <path d="M20.5001 6H3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
@@ -70,33 +43,22 @@
                             </li>
                         </ul>
                     </td> <td class="text-center">
-                                           
                 </tr>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                @endforeach
             </table>
         </div>
     </div>
-
     <script>
         document.addEventListener("alpine:init", () => {
             Alpine.data("multicolumn", () => ({
                 datatable: null,
-                fromDate: '',
-                toDate: '',
                 init() {
-                    flatpickr(document.getElementById('fromDate'), {
-                        dateFormat: 'd/m/Y',
-                    });
-                    flatpickr(document.getElementById('toDate'), {
-                        dateFormat: 'd/m/Y',
-                    });
                     this.datatable = new simpleDatatables.DataTable('#myTable', {
                         data: {
-                            headings: ['Name', 'Email', 'Mobile', 'Address', 'Gender',
-                                'DOB', 'Action'],
+                            headings: ["Country name", "State Name", "Action"],
                         },
                         searchable: true,
-                        perPage: 20,
+                        perPage: 5,
                         perPageSelect: [10, 20, 30, 50, 100],
                         columns: [{
                             select: 0,
@@ -115,21 +77,10 @@
                             bottom: "{info}{select}{pager}",
                         },
                     })
-                },
-
-                searchByDate(){
-                    console.log("hi");
-                    
-                },
+                }
             }));
         });
     </script>
 
 
- <?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
-<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
-<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
-<?php endif; ?>
-<?php /**PATH C:\@Projects\starterkit\resources\views/students/index.blade.php ENDPATH**/ ?>
+</x-layout.default>

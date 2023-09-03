@@ -7,19 +7,21 @@
             </li>
           
         </ul>
-        <div class="pt-5">
-            <div class="flex items-center justify-between mb-5">
-            </div>
-            <form method="POST" action="{{ route('users.store') }}">
+        <form method="POST" action="{{ route('users.store') }}">
                  @csrf
-            <div class="panel grid grid-cols-1 sm:grid-cols-2 gap-4">
-               
-               
-                    <div>
+        <div class="pt-5">
+            
+            <div class="panel">         
+                <div class=" grid grid-cols-3 gap-4">
+                    <div class='{{ $errors->default->first("name") ? "has-error" : "" }}'>
                         <label for="actionName">Full Name:</label>
                         <input id="actionName" type="text" placeholder="Enter Full Name" class="form-input" name="name" />
+                        @if($errors->default->first('name'))
+                        <p class="text-danger mt-1">Please fill the Name</p>
+                        @endif
+
                     </div>
-                    <div>
+                    <div  class='{{ $errors->default->first("email") ? "has-error" : "" }}'>
                         <label for="actionEmail">Email:</label>
                         <div class="flex flex-1">
                             <div
@@ -27,18 +29,25 @@
                                 @</div>
                             <input id="actionEmail" type="email" placeholder=""  name="email" 
                                 class="form-input ltr:rounded-l-none rtl:rounded-r-none" />
+
                         </div>
+                        @if($errors->default->first('email'))
+                        <p class="text-danger mt-1">Please fill the Email</p>
+                        @endif
                     </div>
-                    <div>
+                    <div class='{{ $errors->default->first("password") ? "has-error" : "" }}'>
                         <label for="actionEmail">Password:</label>
                         <div class="flex flex-1">
                            
                             <input id="actionEmail" type="password" placeholder=""  name="password" 
-                                class="form-input ltr:rounded-l-none rtl:rounded-r-none" />
+                                class="form-input" />
                         </div>
+                        @if($errors->default->first('password'))
+                        <p class="text-danger mt-1">Please fill the Password</p>
+                        @endif
                     </div>
 
-                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                    <div  class='{{ $errors->default->first("role") ? "has-error" : "" }}'>
                         <label for="actionRole">Role:</label>
                         <select class="selectize  @error('role') is-invalid @enderror" name="role">
                             <option selected disabled>Select Role</option>
@@ -54,7 +63,7 @@
                             <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>   
-                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                    <div class='{{ $errors->default->first("active") ? "has-error" : "" }}'>
                         <label for="actionRole">Active:</label>
                         <select class="selectize  @error('active') is-invalid @enderror" name="active">
                             <option selected disabled>Select Role</option>
@@ -67,11 +76,26 @@
                             <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>   
+                </div>  
+                <div class="grid grid-col-1">
+                <button type="submit" class="btn btn-primary !mt-6">Submit</button>
+
+                </div>   
+               
+                  
                    
-                    <button type="submit" class="btn btn-primary !mt-6">Submit</button>
+                   
                 </form>
             </div>
         </div>
     </div>
-
+    <script>
+         document.addEventListener("DOMContentLoaded", function(e) {
+            // default
+            var els = document.querySelectorAll(".selectize");
+            els.forEach(function(select) {
+                NiceSelect.bind(select);
+            });
+        });
+    </script>
 </x-layout.default>

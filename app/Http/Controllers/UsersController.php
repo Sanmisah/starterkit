@@ -47,13 +47,9 @@ class UsersController extends Controller
      * @return View Users
      * @author Shani Singh
      */
-    public function store(User $user, Request $request) 
+    public function store( StoreUserRequest $request) 
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-        ]);
+       
 
         $input = User::create([
             'name' => $request->name,
@@ -61,7 +57,6 @@ class UsersController extends Controller
             'password' => Hash::make($request->password),
             'active' =>true,
         ]);  
-        $user->syncRoles($request->get('role'));
         return redirect()->route('users.index')
         ->withSuccess(__('User updated successfully.'));
 
@@ -101,20 +96,10 @@ class UsersController extends Controller
   
 
   
-    public function delete(User $user)
+    public function destroy(User $user)
     {
-        DB::beginTransaction();
-        try {
-            // Delete User
-            User::whereId($user->id)->delete();
-
-            DB::commit();
-            return redirect()->route('users.index')->with('success', 'User Deleted Successfully!.');
-
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            return redirect()->back()->with('error', $th->getMessage());
-        }
+        $user->delete();
+        return redirect()->route('users.index');
     }
 
   

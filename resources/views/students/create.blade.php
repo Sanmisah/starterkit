@@ -38,14 +38,23 @@
                                 <span class="text-danger">{{$message}}</span>
                             @enderror
                         </div>      
-                        <div >
+                        <div  x-data="genders" >
                             <label for="actionRole">Gender:</label>
-                            <select class="selectize  @error('gender') is-invalid @enderror" name="gender">
+                            <!-- <select class="selectize  @error('gender') is-invalid @enderror" name="gender">
                                 <option selected disabled>Select </option>
                                 <option value='Female'>Female</option>
                                 <option value='Male'>Male</option>
                                 
-                            </select>
+                            </select> -->
+                            <select id="gender" name="gender" autocomplete="gender">
+                                    <template x-for="gender in genders">
+                                    <option 
+                                        :value='gender.key'
+                                        x-text="gender.name"
+                                    >
+                                    </option>
+                                    </template>
+                                  </select>
                             
                             @error('gender')
                                 <span class="text-danger">{{$message}}</span>
@@ -170,6 +179,7 @@
             Alpine.data('StudentDetails', () => ({
                 studentDetails: [],
                 init() {
+
                     flatpickr(document.getElementById('dob'), {
                         dateFormat: 'd/m/Y',
                     });
@@ -192,15 +202,15 @@
                 },
               
                 async show() {
-                    this.result = await (await fetch('/contacts/'+this.studentDetail.contact_id, {
+                    genders = await (await fetch('/contacts', {
                     method: 'GET',
                     headers: {
                         'Content-type': 'application/json;',
                     },
                     })).json();
-                    this.studentDetail.subject = this.result.name;
+                    // this.studentDetail.subject = this.result.name;
 
-                    console.log(this.result.name);
+                    // console.log(this.result.name);
                 },
 
                 removeItem(studentDetail) {

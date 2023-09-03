@@ -51,7 +51,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
             Route::get('/', 'UsersController@index')->name('users.index');
             Route::get('/create', 'UsersController@create')->name('users.create');
             Route::post('/create', 'ContactController@get');
-            Route::post('/contacts/get/{contact}', 'UsersController@store')->name('users.store');
+            Route::post('/contacts/store', 'UsersController@store')->name('users.store');
             Route::get('/{user}/show', 'UsersController@show')->name('users.show');
             Route::get('/{user}/edit', 'UsersController@edit')->name('users.edit');
             Route::patch('/{user}/update', 'UsersController@update')->name('users.update');
@@ -60,6 +60,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
             
 
+        Route::resource('country', CountryController::class);
+        Route::resource('state', StateController::class);
         Route::resource('students', StudentController::class);
         Route::resource('contacts', ContactController::class);
         Route::resource('roles', RolesController::class);

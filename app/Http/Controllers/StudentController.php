@@ -22,7 +22,7 @@ class StudentController extends Controller
     public function index(Request $request)
     {
         $students = Student::all();
-        return view('students.index', ['students' => $students]);
+        return view('students.view', ['students' => $students]);
     }
 
     public function create()
