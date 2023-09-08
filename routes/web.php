@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\BackupsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -56,6 +57,14 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
             Route::get('/{user}/edit', 'UsersController@edit')->name('users.edit');
             Route::patch('/{user}/update', 'UsersController@update')->name('users.update');
             Route::delete('/{user}/delete', 'UsersController@destroy')->name('users.destroy');
+        });
+
+        Route::group(['prefix' => 'backup'], function() {
+            Route::get('/', 'BackupsController@index')->name('backup.index');           
+            Route::get('/all', 'BackupsController@all')->name('backup.all');           
+            Route::get('/clean', 'BackupsController@clean')->name('backup.clean');           
+            Route::get('/only_db', 'BackupsController@onlyDb')->name('backup.onlyDb');           
+            Route::get('/only_files', 'BackupsController@onlyFiles')->name('backup.onlyFiles');           
         });
 
             

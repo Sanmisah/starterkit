@@ -81,7 +81,9 @@
                         <x-input-error :messages="$errors->get('message')" class="mt-2" />  
                     </div>
                     <div>
-                    <button type="submit" class="btn btn-primary !mt-6 float-right">Submit</button>
+                        <x-success-button>
+                            {{ __('Success') }}
+                        </x-success-button>
 
                     </div>
                     

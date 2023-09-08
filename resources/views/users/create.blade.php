@@ -78,7 +78,9 @@
                     </div>   
                 </div>  
                 <div class="grid grid-col-1">
-                <button type="submit" class="btn btn-primary !mt-6">Submit</button>
+                    <x-success-button>
+                        {{ __('Success') }}
+                    </x-success-button>
 
                 </div>   
                

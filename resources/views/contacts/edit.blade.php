@@ -78,7 +78,9 @@
                         <textarea class="form-input" id="actionMessage" name="message" placeholder="Type your message....."  value="{{ $contact->message }}">{{ $contact->message}}</textarea>
                     </div>
                     <div>
-                    <button type="submit" class="btn btn-primary !mt-6 float-right">Submit</button>
+                        <x-success-button>
+                            {{ __('Success') }}
+                        </x-success-button>
 
                     </div>
                     

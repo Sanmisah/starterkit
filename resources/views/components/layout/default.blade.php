@@ -105,7 +105,11 @@
 
         <div class="main-content">
             <x-common.header />
-            <x-common.alert />
+            @if(Session::has('success'))
+                <x-common.alert :success='true'> {{ session('success') }} </x-common.alert> 
+            @elseif(Session::has('error'))
+                <x-common.alert > {{ session('error') }} </x-common.alert > 
+            @endif
 
             <div class="p-6 animate__animated" :class="[$store.app.animation]">
                 {{ $slot }}

@@ -13,13 +13,7 @@
             <div>
                 <button type="submit" class="btn btn-primary" x-on:click="searchByDate()">Search</button>
             </div>
-            <div>
-                <a href="{{ route('students.create')}}" class="btn btn-warning rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>Add
-                </a>
-            </div>
+            <x-add-button :link="route('students.create')" :text="Student"/>
         </div>
         <div class="panel mt-6 table-responsive">
             <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">Students List

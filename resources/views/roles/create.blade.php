@@ -43,7 +43,9 @@
                             @endforeach
                         </ul>
                     </div>
-                    <button type="submit" class="btn btn-primary !mt-6">Submit</button>
+                    <x-success-button>
+                        {{ __('Success') }}
+                    </x-success-button>
                 </form>
             </div>
         </div>

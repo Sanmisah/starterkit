@@ -23,7 +23,9 @@
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />        
                     </div>
                 </div>
-                <button type="submit" class="btn btn-info" style="float:right;">Submit</button>
+                    <x-success-button>
+                        {{ __('Success') }}
+                    </x-success-button>
                 <br><br>
             </div>
         </form> 

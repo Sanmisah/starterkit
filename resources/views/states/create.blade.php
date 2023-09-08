@@ -38,7 +38,9 @@
                     </div>                    
                 </div>        
                 <br>        
-                <button type="submit" class="btn btn-info" style="float:right;">Submit</button>
+                    <x-success-button>
+                        {{ __('Success') }}
+                    </x-success-button>
                 <br><br>
             </div>
         </form> 
