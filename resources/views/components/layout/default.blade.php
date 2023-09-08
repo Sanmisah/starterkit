@@ -105,6 +105,7 @@
 
         <div class="main-content">
             <x-common.header />
+            <x-common.alert />
 
             <div class="p-6 animate__animated" :class="[$store.app.animation]">
                 {{ $slot }}

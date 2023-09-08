@@ -30,11 +30,5 @@ class StoreUserRequest extends FormRequest
         ];
     }
 
-    public function messages(): array
-    {
-        return [
-            'name.required' => 'A title is required',
-            'email.required' => 'A message is required',
-        ];
-    }
+   
 }

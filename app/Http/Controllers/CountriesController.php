@@ -8,24 +8,24 @@ use Illuminate\Http\Request;
 use App\Models\Country;
 use App\Models\State;
 
-class CountryController extends Controller
+class CountriesController extends Controller
 {
     public function index()
     {
         $countries = Country::all();
-        return view('country.index', ['countries' => $countries]);
+        return view('countries.index', ['countries' => $countries]);
     }
 
     public function create()
     {
-        return view('country.create');
+        return view('countries.create');
     }
 
     public function store(StoreCountryRequest $request)
     {
         $input = $request->all();      
         $country = Country::create($input);  
-        return redirect()->route('country.index')->with('success', 'Country has been saved successfully');
+        return redirect()->route('countries.index')->with('success', 'Country has been saved successfully');
     }
    
     public function show(Country $country)
@@ -40,7 +40,7 @@ class CountryController extends Controller
      */
     public function edit(Country $country)
     {
-        return view('country.edit')->with(['country'=>$country]);
+        return view('countries.edit')->with(['country'=>$country]);
     }
 
     /**
@@ -49,7 +49,7 @@ class CountryController extends Controller
     public function update(UpdateCountryRequest $request, Country $country): RedirectResponse
     {
         $country->update($request->all());
-        return redirect()->route('country.index')->withSuccess(__('Country updated successfully.'));
+        return redirect()->route('countries.index')->withSuccess(__('Country updated successfully.'));
     }
 
     /**
@@ -58,6 +58,6 @@ class CountryController extends Controller
     public function destroy(Country $country): RedirectResponse
     {       
         $country->delete();
-        return redirect()->route('country.index');
+        return redirect()->route('countries.index');
     }
 }

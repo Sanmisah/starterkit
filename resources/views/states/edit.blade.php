@@ -2,14 +2,14 @@
 <div>
     <ul class="flex space-x-2 rtl:space-x-reverse">
         <li>
-            <a href="{{ route('state.index') }}" class="text-primary hover:underline">State</a>
+            <a href="{{ route('states.index') }}" class="text-primary hover:underline">States</a>
         </li>
         <li class="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
             <span>Edit</span>
         </li>
     </ul>
     <div class="pt-5">        
-        <form class="space-y-5" action="{{ route('state.update', ['state' => $state->id]) }}" method="POST">
+        <form class="space-y-5" action="{{ route('states.update', ['state' => $state->id]) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="panel">
@@ -27,20 +27,20 @@
                                 </option>
                             @endforeach
                         </select>                        
-                        @error('country_id')
-                            <span class="text-danger">{{$message}}</span>
-                        @enderror
+                        @if($errors->default->first('country_id'))
+                        <p class="text-danger mt-1">Please select Country</p>
+                        @endif
                     </div>     
                     <div>
-                        <label>Name:<span style="color: red">*</span></label>
-                        <input type="text" placeholder="Enter name" class="form-input" name="name" value="{{ $state->name }}" required autofocus />
-                        @error('name')
-                            <span class="text-danger">{{$message}}</span>
-                        @enderror
+                        <label>State Name:<span style="color: red">*</span></label>
+                        <x-text-input class="form-input"  name="name" value="{{ $state->name }}" required  />                       
+                        <x-input-error :messages="$errors->get('name')" class="mt-2" />    
                     </div>
-                </div>
+                </div>     
+                <br>     
+                <button type="submit" class="btn btn-info" style="float:right;">Submit</button>
+                <br><br>
             </div>
-            <button type="submit" class="btn btn-primary !mt-6">Submit</button>
         </form> 
     </div>
 </div>

@@ -15,20 +15,25 @@
             <form action="{{ route('contacts.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="panel">
-                <div class="grid grid-cols-4 gap-4"  x-data="data">              
-                
+                <div class="grid grid-cols-1 gap-4 mb-4">
                     <div>
                         <label for="actionName">Full Name:</label>
-                        <input id="actionName" type="text" placeholder="Enter Full Name" class="form-input" name="name"/>
+                        <x-text-input  class="form-input"  name="name"    />                       
+                        <x-input-error :messages="$errors->get('name')" class="mt-2" />  
                     </div>
+
+                </div>
+                <div class="grid grid-cols-3 gap-4 mb-4"  x-data="data">  
                     <div>
                         <label for="actionName">Pan Card No:</label>
-                        <input id="actionName" type="text" placeholder="Enter Pan Card No" class="form-input @error('pancard') has-error @enderror " name="pancard"/>
+                        <x-text-input  class="form-input"  name="pancard"    />                       
+                        <x-input-error :messages="$errors->get('pancard')" class="mt-2" />  
                       
                     </div>
                     <div>
                         <label for="actionName">Aadhar Card No:</label>
-                        <input id="actionName" type="text" placeholder="Enter Pan Card No" class="form-input @error('pancard') has-error @enderror " name="aadhar" />
+                        <x-text-input  class="form-input"  name="aadhar"   />                       
+                        <x-input-error :messages="$errors->get('aadhar')" class="mt-2" />  
                       
                     </div>
                     <div>
@@ -37,13 +42,13 @@
                             <div
                                 class="bg-[#eee] flex justify-center items-center ltr:rounded-l-md rtl:rounded-r-md px-3 font-semibold border ltr:border-r-0 rtl:border-l-0 border-[#e0e6ed] dark:border-[#17263c] dark:bg-[#1b2e4b]">
                                 @</div>
-                            <input id="actionEmail" type="email" placeholder=""  name="email"
-                                class="form-input ltr:rounded-l-none rtl:rounded-r-none" />
+                                <x-text-input  class="form-input"  name="email"  />                      
                         </div>
+                        <x-input-error :messages="$errors->get('email')" class="mt-2" />  
                     </div>    
                     <div >
                         <label for="actionRole">Country:</label>
-                        <select class="selectize" name="country_id" x-model="country_id"  x-on:change="countryChange()">
+                        <select class="form-select" name="country_id" x-model="country_id"  x-on:change="countryChange()">
                             <option selected disabled>Select Country</option>
                             @foreach ($countries as $country)
                                 <option value="{{$country->id}}" 
@@ -57,7 +62,7 @@
                     </div>       
                     <div >
                         <label for="actionRole">State:</label>
-                        <select class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 " id="country" name="state_id" >
+                        <select class="form-select"  name="state_id" >
                         <option selected disabled>Select State</option>
                             <template x-for="state in states">
                             <option 
@@ -73,6 +78,7 @@
                     <div>
                         <label for="actionMessage">Message:</label>
                         <textarea class="form-input" id="actionMessage" name="message" placeholder="Type your message....."></textarea>
+                        <x-input-error :messages="$errors->get('message')" class="mt-2" />  
                     </div>
                     <div>
                     <button type="submit" class="btn btn-primary !mt-6 float-right">Submit</button>
@@ -91,7 +97,7 @@
                 states: '',
                 async countryChange() {
                     console.log("fi");
-                    this.result = await (await fetch('/country/'+ this.country_id, {
+                    this.result = await (await fetch('/countries/'+ this.country_id, {
                     method: 'GET',
                     headers: {
                         'Content-type': 'application/json;',

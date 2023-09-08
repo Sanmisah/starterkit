@@ -22,6 +22,8 @@ class Contact extends Model
         'email',
         'message',
         'aadhar',
+        'country_id',
+        'state_id'
     ];
 
     public function getActivitylogOptions(): LogOptions

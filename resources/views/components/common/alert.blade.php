@@ -1,4 +1,4 @@
-<div class="panel">
+<div class="panel" x-data="form">
 <div class="grid grid-cols-1 ">
 @if (Session::has('success'))
 
@@ -60,3 +60,27 @@
     </pre>
                 </template>
             </div>
+
+            <script>
+        document.addEventListener("alpine:init", () => {
+            Alpine.data("form", () => ({
+
+                // highlightjs
+                codeArr: [],
+                toggleCode(name) {
+                    if (this.codeArr.includes(name)) {
+                        this.codeArr = this.codeArr.filter((d) => d != name);
+                    } else {
+                        this.codeArr.push(name);
+
+                        setTimeout(() => {
+                            document.querySelectorAll('pre.code').forEach(el => {
+                                hljs.highlightElement(el);
+                            });
+                        });
+                    }
+                }
+
+            }));
+        });
+    </script>

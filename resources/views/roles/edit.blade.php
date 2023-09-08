@@ -16,7 +16,8 @@
                     @method('PUT')                    
                     <div>
                         <label for="actionName">Name:</label>
-                        <input id="actionName" type="text" class="form-input" name="name" value="{{ $role->name }}" />
+                        <x-text-input id="role" class="form-input"  name="name" value="{{ $role->name }}" required  />                       
+                        <x-input-error :messages="$errors->get('name')" class="mt-2" />    
                     </div>                   
                     <div>
                         <label for="actionGuardName">Guard Name:</label>                       

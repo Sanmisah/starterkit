@@ -64,7 +64,37 @@ unset($__errorArgs, $__bag); ?> " name="aadhar" value="<?php echo e($contact->aa
                                 class="form-input ltr:rounded-l-none rtl:rounded-r-none" />
                         </div>
                     </div>   
-                </div>                
+                </div>  
+                <div   class="grid grid-cols-3 gap-4" x-data="data">
+                    <div>
+                        <label for="actionRole">Country:</label>
+                        <select class="form-select" name="country_id" x-model="country_id"  x-on:change="countryChange()">
+                            <option selected disabled>Select Country</option>
+                            <?php $__currentLoopData = $countries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $country): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($country->id); ?>" 
+                                    <?php echo e($contact->country_id ? ($contact->country_id == $country->id ? 'selected' : '') : ''); ?>>
+                                    <?php echo e($country->name); ?>
+
+                                </option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                           
+                            
+                        </select>
+                    </div>       
+                    <div >
+                        <label for="actionRole">State:</label>
+                        <select class="form-select" x-model="state_id"  name="state_id" >
+                        <option selected disabled>Select State</option>
+                            <template x-for="state in states">
+                            <option 
+                                :value='state.id'
+                                x-text="state.name"
+                            >
+                            </option>
+                            </template>
+                          </select>
+                    </div>   
+                </div>              
                 <div class="grid grid-cols-1">           
                     <div>
                         <label for="actionMessage">Message:</label>
@@ -80,6 +110,45 @@ unset($__errorArgs, $__bag); ?> " name="aadhar" value="<?php echo e($contact->aa
             </form>
         </div>
     </div>
+
+    <script>
+        document.addEventListener("alpine:init", () => {
+            Alpine.data('data', () => ({
+                country_id: '',
+                state_id: '',
+                states: '',
+                async countryChange() {
+                    console.log("fi");
+                    this.result = await (await fetch('/countries/'+ this.country_id, {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json;',
+                    },
+                    })).json();
+                    this.states = this.result;
+                    console.log(this.states);
+                },
+
+                init(){
+                    <?php if($contact->country_id): ?>
+                    this.country_id = <?php echo e($contact->country_id); ?>;
+                    this.countryChange();
+                    <?php endif; ?>
+
+                    <?php if($contact->state_id): ?>
+                    this.state_id = <?php echo e($contact->state_id); ?>;
+                    <?php endif; ?>
+                }
+            }));
+        });    
+        document.addEventListener("DOMContentLoaded", function(e) {
+            // default
+            var els = document.querySelectorAll(".selectize");
+            els.forEach(function(select) {
+                NiceSelect.bind(select);
+            });
+        });
+</script>
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>

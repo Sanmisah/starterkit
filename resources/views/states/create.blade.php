@@ -2,14 +2,14 @@
 <div>
     <ul class="flex space-x-2 rtl:space-x-reverse">
         <li>
-            <a href="{{ route('state.index') }}" class="text-primary hover:underline">State</a>
+            <a href="{{ route('states.index') }}" class="text-primary hover:underline">States</a>
         </li>
         <li class="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
-            <span>Create</span>
+            <span>Add</span>
         </li>
     </ul>
     <div class="pt-5">        
-        <form class="space-y-5" action="{{ route('state.store') }}" method="POST">
+        <form class="space-y-5" action="{{ route('states.store') }}" method="POST">
             @csrf
             <div class="panel">
                 <div class="flex items-center justify-between mb-5">
@@ -18,7 +18,7 @@
                 <div class="grid grid-cols-2 gap-4">          
                     <div>
                         <label>Country:<span style="color: red">*</span></label>
-                        <select class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 selectize  @error('country') is-invalid @enderror" name="country_id">
+                        <select class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 selectize" name="country_id">
                             <option selected disabled>Select Country</option>
                             @foreach ($countries as $country)
                                 <option value="{{$country->id}}" 
@@ -27,20 +27,20 @@
                                 </option>
                             @endforeach
                         </select>
-                        @error('country')
-                            <span class="text-danger">{{$message}}</span>
-                        @enderror
+                        @if($errors->default->first('country_id'))
+                        <p class="text-danger mt-1">Please select Country</p>
+                        @endif
                     </div>     
                     <div>
-                        <label>Name:<span style="color: red">*</span></label>
-                        <input type="text" placeholder="Enter name" class="form-input" name="name" required autofocus />
-                        @error('name')
-                            <span class="text-danger">{{$message}}</span>
-                        @enderror
+                        <label>State Name:<span style="color: red">*</span></label>
+                        <x-text-input id="state" class="form-input"  name="name"  required  />                       
+                        <x-input-error :messages="$errors->get('name')" class="mt-2" />    
                     </div>                    
-                </div>
+                </div>        
+                <br>        
+                <button type="submit" class="btn btn-info" style="float:right;">Submit</button>
+                <br><br>
             </div>
-            <button type="submit" class="btn btn-primary !mt-6">Submit</button>
         </form> 
     </div>
 </div> 

@@ -18,7 +18,8 @@
                     @csrf
                     <div>
                         <label for="actionName">Name:</label>
-                        <input id="actionName" type="text" placeholder="Enter name" class="form-input" name="name" required autofocus autocomplete="name"/>
+                        <x-text-input  class="form-input"  name="name"  required  />                       
+                        <x-input-error :messages="$errors->get('name')" class="mt-2" />    
                     </div>
                     <div>
                         <label for="actionGuardName">Guard Name:</label>                        
@@ -28,17 +29,7 @@
                             <option value="api">API</option>
                         </select>
                     </div>
-                    <!-- <div>
-                        <label for="actionPermission" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Permission:</label>
-                        <select name="permission_id" id="actionPermission" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required  autofocus>
-                            <option selected>Select Permission</option>                            
-                            @if(isset($permissions))
-                                @foreach ($permissions as $permission)
-                                    <option value="{{ $permission->id }}">{{ $permission->name }}</option>
-                                @endforeach
-                            @endif
-                        </select>
-                    </div> -->
+                   
                     <div>
                         <ul>
                             @foreach($permissions as $permission)

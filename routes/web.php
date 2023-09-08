@@ -60,8 +60,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
             
 
-        Route::resource('country', CountryController::class);
-        Route::resource('state', StateController::class);
+        Route::resource('countries', CountriesController::class);
+        Route::resource('states', StatesController::class);
         Route::resource('students', StudentController::class);
         Route::resource('contacts', ContactController::class);
         Route::resource('roles', RolesController::class);

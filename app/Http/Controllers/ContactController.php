@@ -46,7 +46,8 @@ class ContactController extends Controller
 
     public function edit(Contact $contact)
     {
-        return view('contacts.edit',compact('contact'));
+        $countries = Country::all();
+        return view('contacts.edit',compact('contact', 'countries'));
     }
 
     public function show(Contact $contact)

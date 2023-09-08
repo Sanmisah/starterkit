@@ -1,4 +1,4 @@
-<div class="panel">
+<div class="panel" x-data="form">
 <div class="grid grid-cols-1 ">
 <?php if(Session::has('success')): ?>
 
@@ -59,4 +59,28 @@
     &lt;/div&gt;
     </pre>
                 </template>
-            </div><?php /**PATH C:\@Projects\starterkit\resources\views/components/common/alert.blade.php ENDPATH**/ ?>
+            </div>
+
+            <script>
+        document.addEventListener("alpine:init", () => {
+            Alpine.data("form", () => ({
+
+                // highlightjs
+                codeArr: [],
+                toggleCode(name) {
+                    if (this.codeArr.includes(name)) {
+                        this.codeArr = this.codeArr.filter((d) => d != name);
+                    } else {
+                        this.codeArr.push(name);
+
+                        setTimeout(() => {
+                            document.querySelectorAll('pre.code').forEach(el => {
+                                hljs.highlightElement(el);
+                            });
+                        });
+                    }
+                }
+
+            }));
+        });
+    </script><?php /**PATH C:\@Projects\starterkit\resources\views/components/common/alert.blade.php ENDPATH**/ ?>

@@ -1,28 +1,30 @@
-<x-layout.default>
+
+<x-layout.default>    
+    <style>
+        .dt-head-right {text-align: right;}
+    </style> 
     <script src="/assets/js/simple-datatables.js"></script>
-    <div x-data="multicolumn">
+    <div x-data="multicolumn">        
         <div class="lead" style="display:inline-block;">
-            <a href="{{ route('roles.create') }}" class="btn btn-warning rounded-full">
+            <a href="{{ route('countries.create') }}" class="btn btn-warning btn-sm rounded-full">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>Add
             </a>
         </div>
         <div class="panel mt-6 table-responsive">
-            <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">Roles
-            </h5>
-            <table id="myTable" class="whitespace-nowrap table-hover">
-                @foreach ($roles as $role)
-                <tr>
-                    <td>{{ $role->name }}</td>
-                    <td>{{ $role->guard_name }}</td>                    
-                    <td class="text-center">
+            <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">Countries</h5>
+            <table id="myTable" class="whitespace-nowrap dt-head-right">
+                @foreach ($countries as $country)
+                <tr>                    
+                    <td>{{ $country->name }}</td>
+                    <td class="float-right">
                         <ul class="flex items-center gap-2" >
                             <li style="display: inline-block;vertical-align:top;">
-                                <x-edit-button :link="route('roles.edit', $role->id)" />                               
+                                <x-edit-button :link=" route('countries.edit', $country->id)" />                               
                             </li>
                             <li style="display: inline-block;vertical-align:top;">
-                                <x-delete-button :link=" route('roles.destroy',$role->id)" />  
+                                <x-delete-button :link=" route('countries.destroy',$country->id)" />  
                             </li>   
                         </ul>
                     </td>
@@ -38,12 +40,18 @@
                 init() {
                     this.datatable = new simpleDatatables.DataTable('#myTable', {
                         data: {
-                            headings: ["Name", "Guard Name", "Action"],
-                            
+                            headings: [
+                                "Name",
+                                "<div style='float:right'>Action</div>",
+                            ],
                         },
                         searchable: true,
                         perPage: 5,
                         perPageSelect: [10, 20, 30, 50, 100],
+                        columnDefs: [{
+                            targets: 2, 
+                            className: 'dt-head-right'
+                        }],
                         columns: [{
                             select: 0,
                             sort: "asc"
@@ -65,6 +73,4 @@
             }));
         });
     </script>
-
-
 </x-layout.default>
