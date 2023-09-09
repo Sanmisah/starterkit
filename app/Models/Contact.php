@@ -9,11 +9,14 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Traits\CreatedUpdatedBy;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Spatie\MediaLibrary\HasMedia;
+use App\Models\User;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 
-class Contact extends Model
+class Contact extends Model implements HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable, CreatedUpdatedBy, LogsActivity;
+    use HasApiTokens, HasFactory, Notifiable, CreatedUpdatedBy, LogsActivity, InteractsWithMedia;
 
    
     protected $fillable = [
@@ -32,6 +35,12 @@ class Contact extends Model
         ->logOnly(['name', 'email', 'message']);
         // Chain fluent methods for configuration options
     }
+
+    public function User()
+    {
+        return $this->hasOne(User::class, 'id');
+    }
+
 
 
     

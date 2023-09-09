@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\Contact;
 use App\Models\Country;
+use App\Models\User;
 use App\Rules\ValidatePancard;
 use App\Rules\ValidateAadhar;
 
@@ -37,9 +38,18 @@ class ContactController extends Controller
             'pancard'=> ['required', new ValidatePancard],
             'email' => 'required',
         ]);
+        
         $input = $request->all();
+        $user = new User;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = 'abcd123';
+        $user->active = true;
+
       
-        Contact::create($input);
+        $contact = Contact::create($input);
+        $contact->User()->save($user);
+
         $request->session()->flash('success', 'Contact are saved successfully!');
         return redirect()->route('contacts.index');
     }
@@ -68,6 +78,9 @@ class ContactController extends Controller
        
         $input = $request->all();
         $contact->update($input);
+        if($request->hasFile('picture')){
+            $contact->addMediaFromRequest('picture')->toMediaCollection('picture');
+        }
         $request->session()->flash('success', 'Contact are saved successfully!');
         
         return redirect()->route('contacts.index');

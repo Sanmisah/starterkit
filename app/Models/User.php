@@ -54,4 +54,6 @@ class User extends Authenticatable
         ->logOnly(['name', 'email', 'password', 'active']);
         // Chain fluent methods for configuration options
     }
+
+   
 }

@@ -21,7 +21,7 @@
             <div class="flex items-center justify-between mb-5">
                 <!-- <h5 class="font-semibold text-lg dark:text-white-light">Settings</h5> -->
             </div>
-            <form class="space-y-5" action="<?php echo e(route('contacts.update',$contact->id)); ?>" method="POST">
+            <form class="space-y-5" enctype="multipart/form-data" action="<?php echo e(route('contacts.update',$contact->id)); ?>" method="POST">
             <?php echo csrf_field(); ?>
             <?php echo method_field('PUT'); ?>
             <div class="panel">      
@@ -100,12 +100,44 @@ unset($__errorArgs, $__bag); ?> " name="aadhar" value="<?php echo e($contact->aa
                         <label for="actionMessage">Message:</label>
                         <textarea class="form-input" id="actionMessage" name="message" placeholder="Type your message....."  value="<?php echo e($contact->message); ?>"><?php echo e($contact->message); ?></textarea>
                     </div>
+                   
+                    
+                </div>      
+                <div class="grid grid-cols-4">           
+                    <div >
+                    <label for="actionMssage">Picture:</label>
+                        <input type="file" name="picture">
+                    </div>
                     <div>
-                    <button type="submit" class="btn btn-primary !mt-6 float-right">Submit</button>
+                    <img src="<?php echo e($contact->getFirstMediaUrl('picture')); ?>"  width="120px">
+                    </div>
+                   
+                    
+                </div> 
+                <div class="grid grid-cols-1">           
+                   
+                    <div>
+                        <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.success-button','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('success-button'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+                            <?php echo e(__('Success')); ?>
+
+                         <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
+<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
+<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php endif; ?>
 
                     </div>
                     
-                </div>                 
+                </div>            
             </div>
             </form>
         </div>

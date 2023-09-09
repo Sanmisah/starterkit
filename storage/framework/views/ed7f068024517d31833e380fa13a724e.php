@@ -187,7 +187,7 @@
                         <option selected disabled>Select State</option>
                             <template x-for="state in states">
                             <option 
-                                :value='state.key'
+                                :value='state.id'
                                 x-text="state.name"
                             >
                             </option>
@@ -215,6 +215,19 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>  
                     </div>
+                   
+                    
+                </div> 
+                <div class="grid grid-cols-4">           
+                    <div >
+                    <label for="actionMssage">Picture:</label>
+                        <input type="file" name="picture">
+                    </div>
+                   
+                    
+                </div> 
+                <div class="grid grid-cols-1">           
+                   
                     <div>
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.success-button','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>

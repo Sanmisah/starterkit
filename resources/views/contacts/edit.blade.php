@@ -13,7 +13,7 @@
             <div class="flex items-center justify-between mb-5">
                 <!-- <h5 class="font-semibold text-lg dark:text-white-light">Settings</h5> -->
             </div>
-            <form class="space-y-5" action="{{ route('contacts.update',$contact->id) }}" method="POST">
+            <form class="space-y-5" enctype="multipart/form-data" action="{{ route('contacts.update',$contact->id) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="panel">      
@@ -77,6 +77,22 @@
                         <label for="actionMessage">Message:</label>
                         <textarea class="form-input" id="actionMessage" name="message" placeholder="Type your message....."  value="{{ $contact->message }}">{{ $contact->message}}</textarea>
                     </div>
+                   
+                    
+                </div>      
+                <div class="grid grid-cols-4">           
+                    <div >
+                    <label for="actionMssage">Picture:</label>
+                        <input type="file" name="picture">
+                    </div>
+                    <div>
+                    <img src="{{$contact->getFirstMediaUrl('picture')}}"  width="120px">
+                    </div>
+                   
+                    
+                </div> 
+                <div class="grid grid-cols-1">           
+                   
                     <div>
                         <x-success-button>
                             {{ __('Success') }}
@@ -84,7 +100,7 @@
 
                     </div>
                     
-                </div>                 
+                </div>            
             </div>
             </form>
         </div>

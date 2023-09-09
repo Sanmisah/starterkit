@@ -66,7 +66,7 @@
                         <option selected disabled>Select State</option>
                             <template x-for="state in states">
                             <option 
-                                :value='state.key'
+                                :value='state.id'
                                 x-text="state.name"
                             >
                             </option>
@@ -80,6 +80,19 @@
                         <textarea class="form-input" id="actionMessage" name="message" placeholder="Type your message....."></textarea>
                         <x-input-error :messages="$errors->get('message')" class="mt-2" />  
                     </div>
+                   
+                    
+                </div> 
+                <div class="grid grid-cols-4">           
+                    <div >
+                    <label for="actionMssage">Picture:</label>
+                        <input type="file" name="picture">
+                    </div>
+                   
+                    
+                </div> 
+                <div class="grid grid-cols-1">           
+                   
                     <div>
                         <x-success-button>
                             {{ __('Success') }}
