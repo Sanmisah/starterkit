@@ -26,27 +26,34 @@
             <div>
                 <button type="submit" class="btn btn-primary" x-on:click="rangeChange()">Search</button>
             </div>
-            <div>
-                <a href="<?php echo e(route('students.create')); ?>" class="btn btn-warning rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>Add
-                </a>
-            </div>
+            <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.add-button','data' => ['link' => route('students.create')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('add-button'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['link' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('students.create'))]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
+<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
+<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php endif; ?>
         </div>
        
         <div class="panel mt-6">
             <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light"> student
-            </h5>
-            
+            </h5>                  
            
-            <table id="myTable" class="whitespace-nowrap"></table>
+            <table  id="myTable" class="whitespace-nowrap"></table>
         </div>
     </div>
 
     <script>
         document.addEventListener("alpine:init", () => {
-            Alpine.data("multicolumn", () => ({
+            Alpine.data("multicolumn", () => ({                
                 fromDate: '',
                 toDate: '',
                 dateSearch: '',
@@ -60,6 +67,7 @@
                         address: '<?php echo e($student->address); ?>',
                         gender: '<?php echo e($student->gender); ?>', 
                         dob: '<?php echo e($student->dob); ?>',
+                        action: '<a href=""  class="btn btn-sm btn-outline-danger"> Delete</a> &nbsp; <a href="<?php echo e(route("students.edit", ["student"=>$student->id])); ?>"  class="btn btn-sm btn-outline-primary"> Edit</a>',
                     },
                 
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -73,6 +81,9 @@
                 datatable: null,
                 rangeChange() {
                     let dt = this.allData;
+                    console.log( this.allData);
+                    console.log( dt);
+
 
                     if (this.fromDate != '' && this.fromDate != null) {
                         dt = dt.filter((d) => d.dob >= this.fromDate);
@@ -82,7 +93,9 @@
                     }
 
 
+
                     this.filterData = dt;
+                    console.log( this.filterData);
 
                     this.dataArr = [];
                     this.setTableData();
@@ -101,10 +114,11 @@
                 },
                 initializeTable() {
                    
-                    this.datatable = new simpleDatatables.DataTable('#myTable', {
+                    this.datatable = new simpleDatatables.DataTable('#myTable', {                       
+                       
                         data: {
                             headings: ['Name', 'Email', 'Mobile', 'Address', 'Gender',
-                                'DOB'
+                                'DOB', 'Action'
                             ],
                             data: this.dataArr,
                         },
@@ -161,10 +175,10 @@
                 // },
                 initDatePicker() {
                     flatpickr(document.getElementById('minvalue'), {
-                        dateFormat: 'Y-m-d',
+                        dateFormat: 'd/m/Y',
                     });
                     flatpickr(document.getElementById('maxvalue'), {
-                        dateFormat: 'Y-m-d',
+                        dateFormat: 'd/m/Y',
                     });
 
                 }

@@ -36,10 +36,7 @@ class Contact extends Model implements HasMedia
         // Chain fluent methods for configuration options
     }
 
-    public function User()
-    {
-        return $this->hasOne(User::class, 'id');
-    }
+   
 
 
 

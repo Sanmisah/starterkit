@@ -87,6 +87,9 @@
                     </button>
                     <ul x-cloak x-show="activeDropdown === 'master'" x-collapse class="sub-menu text-gray-500">
                        
+                        
+                        <li><a href="/countries">Countries</a></li>
+                            <li><a href="/states">States</a></li>
                         <li>
                             <a href="/contacts">Contacts</a>
                         </li>

@@ -11,6 +11,8 @@ use Spatie\Permission\Traits\HasRoles;
 use App\Traits\CreatedUpdatedBy;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use App\Models\Contact;
+
 
 class User extends Authenticatable
 {
@@ -53,6 +55,11 @@ class User extends Authenticatable
         return LogOptions::defaults()
         ->logOnly(['name', 'email', 'password', 'active']);
         // Chain fluent methods for configuration options
+    }
+
+    public function Contact()
+    {
+        return $this->hasOne(Contact::class, 'id');
     }
 
    

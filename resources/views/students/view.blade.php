@@ -59,6 +59,9 @@
                 datatable: null,
                 rangeChange() {
                     let dt = this.allData;
+                    console.log( this.allData);
+                    console.log( dt);
+
 
                     if (this.fromDate != '' && this.fromDate != null) {
                         dt = dt.filter((d) => d.dob >= this.fromDate);
@@ -66,6 +69,7 @@
                     if (this.toDate != '' && this.toDate != null) {
                         dt = dt.filter((d) => d.dob <= this.toDate);
                     }
+
 
 
                     this.filterData = dt;

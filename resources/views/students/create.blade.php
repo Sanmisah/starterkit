@@ -46,14 +46,10 @@
                                 <option value='Male'>Male</option>
                                 
                             </select> -->
-                            <select id="gender" name="gender" autocomplete="gender">
-                                    <template x-for="gender in genders">
-                                    <option 
-                                        :value='gender.key'
-                                        x-text="gender.name"
-                                    >
-                                    </option>
-                                    </template>
+                            <select id="gender" name="gender" autocomplete="gender" class="form-select">
+                                   <option >Please Select</option>
+                                   <option value="Male">Male</option>
+                                   <option value="Female">Female</option>
                                   </select>
                             
                             @error('gender')
@@ -99,7 +95,6 @@
                                             <table>
                                                 <thead>
                                                     <tr>
-                                                        <th>Contact</th>
                                                         <th>Subject</th>
                                                         <th class="w-1">Marks</th>
                                                         <th class="w-1">Grade</th>
@@ -114,16 +109,7 @@
                                                         </tr>
                                                     </template>
                                                     <template x-for="(studentDetail, i) in studentDetails" :key="i">
-                                                        <tr class="align-top border-b border-[#e0e6ed] dark:border-[#1b2e4b]">
-                                                            <td>
-                                                                <select x-model="studentDetail.contact_id" class="selectize" name="contact_id" x-bind:name="`student_details[${studentDetail.id}][contact_id]`" @change="show()">
-                                                                    <option selected disabled>Select </option>
-                                                                    @foreach($contacts as $contact)
-                                                                    <option value='{{ $contact->id }}'>{{ $contact->name }}</option>
-                                                                    @endforeach
-                                                                    
-                                                                </select>
-                                                            </td>
+                                                        <tr class="align-top border-b border-[#e0e6ed] dark:border-[#1b2e4b]">                                                            
                                                             <td>
                                                                
                                                                 <input type="text" class="form-input min-w-[200px]"
@@ -201,17 +187,7 @@
                     });
                 },
               
-                async show() {
-                    genders = await (await fetch('/contacts', {
-                    method: 'GET',
-                    headers: {
-                        'Content-type': 'application/json;',
-                    },
-                    })).json();
-                    // this.studentDetail.subject = this.result.name;
-
-                    // console.log(this.result.name);
-                },
+               
 
                 removeItem(studentDetail) {
                     this.studentDetails = this.studentDetails.filter((d) => d.id != studentDetail.id);

@@ -67,9 +67,9 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                         </div>      
-                        <div >
+                        <div  x-data="genders" >
                             <label for="actionRole">Gender:</label>
-                            <select class="selectize  <?php $__errorArgs = ['gender'];
+                            <!-- <select class="selectize  <?php $__errorArgs = ['gender'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -81,7 +81,12 @@ unset($__errorArgs, $__bag); ?>" name="gender">
                                 <option value='Female'>Female</option>
                                 <option value='Male'>Male</option>
                                 
-                            </select>
+                            </select> -->
+                            <select id="gender" name="gender" autocomplete="gender" class="form-select">
+                                   <option >Please Select</option>
+                                   <option value="Male">Male</option>
+                                   <option value="Female">Female</option>
+                                  </select>
                             
                             <?php $__errorArgs = ['gender'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -147,7 +152,6 @@ unset($__errorArgs, $__bag); ?>
                                             <table>
                                                 <thead>
                                                     <tr>
-                                                        <th>Contact</th>
                                                         <th>Subject</th>
                                                         <th class="w-1">Marks</th>
                                                         <th class="w-1">Grade</th>
@@ -162,16 +166,7 @@ unset($__errorArgs, $__bag); ?>
                                                         </tr>
                                                     </template>
                                                     <template x-for="(studentDetail, i) in studentDetails" :key="i">
-                                                        <tr class="align-top border-b border-[#e0e6ed] dark:border-[#1b2e4b]">
-                                                            <td>
-                                                                <select x-model="studentDetail.contact_id" class="selectize" name="contact_id" x-bind:name="`student_details[${studentDetail.id}][contact_id]`" @change="show()">
-                                                                    <option selected disabled>Select </option>
-                                                                    <?php $__currentLoopData = $contacts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $contact): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                    <option value='<?php echo e($contact->id); ?>'><?php echo e($contact->name); ?></option>
-                                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                                    
-                                                                </select>
-                                                            </td>
+                                                        <tr class="align-top border-b border-[#e0e6ed] dark:border-[#1b2e4b]">                                                            
                                                             <td>
                                                                
                                                                 <input type="text" class="form-input min-w-[200px]"
@@ -227,6 +222,7 @@ unset($__errorArgs, $__bag); ?>
             Alpine.data('StudentDetails', () => ({
                 studentDetails: [],
                 init() {
+
                     flatpickr(document.getElementById('dob'), {
                         dateFormat: 'd/m/Y',
                     });
@@ -248,17 +244,7 @@ unset($__errorArgs, $__bag); ?>
                     });
                 },
               
-                async show() {
-                    this.result = await (await fetch('/contacts/'+this.studentDetail.contact_id, {
-                    method: 'GET',
-                    headers: {
-                        'Content-type': 'application/json;',
-                    },
-                    })).json();
-                    this.studentDetail.subject = this.result.name;
-
-                    console.log(this.result.name);
-                },
+               
 
                 removeItem(studentDetail) {
                     this.studentDetails = this.studentDetails.filter((d) => d.id != studentDetail.id);

@@ -13,6 +13,7 @@ use Illuminate\View\View;
 use App\Models\Contact;
 use App\Models\Country;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 use App\Rules\ValidatePancard;
 use App\Rules\ValidateAadhar;
 
@@ -26,8 +27,12 @@ class ContactController extends Controller
 
     public function create()
     {
+        $roles = Role::all();
         $countries = Country::all();
-        return view('contacts.create')->with(['countries'=>$countries]);
+        return view('contacts.create')->with([
+            'countries'=>$countries,
+            'roles' => $roles
+        ]);
     }
 
     public function store(Request $request)
@@ -40,15 +45,14 @@ class ContactController extends Controller
         ]);
         
         $input = $request->all();
-        $user = new User;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = 'abcd123';
-        $user->active = true;
-
+        $input['password'] = 'abcd123';
+        $input['active'] = true;
       
-        $contact = Contact::create($input);
-        $contact->User()->save($user);
+        $user = User::create($input);
+        $user->syncRoles($request->get('role'));
+        $contact = new Contact;     
+
+        $user->Contact()->create($request->all());
 
         $request->session()->flash('success', 'Contact are saved successfully!');
         return redirect()->route('contacts.index');
@@ -78,6 +82,25 @@ class ContactController extends Controller
        
         $input = $request->all();
         $contact->update($input);
+
+        $user = User::find($contact->id);
+        if ($user === null)
+        {
+            $user = new User;
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = 'abcd123';
+            $user->active = true;
+            $contact->User()->save($user);
+        }
+        else
+        {
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+            ]);
+            
+        }
         if($request->hasFile('picture')){
             $contact->addMediaFromRequest('picture')->toMediaCollection('picture');
         }

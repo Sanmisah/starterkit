@@ -72,7 +72,24 @@
                             </option>
                             </template>
                           </select>
-                    </div>       
+                    </div>      
+                    
+                    <div >
+                        <label for="actionRole">Role:</label>
+                        <select class="form-select  @error('role') is-invalid @enderror" name="role">
+                            <option selected disabled>Select Role</option>
+                            @foreach ($roles as $role)
+                                <option value="{{$role->id}}" 
+                                    {{old('role') ? ((old('role') == $role->id) ? 'selected' : '') : ''}}>
+                                    {{$role->name}}
+                                </option>
+                            @endforeach
+                        </select>
+                        
+                        @error('role')
+                            <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>    
                 </div>      
                 <div class="grid grid-cols-1">           
                     <div>
@@ -111,13 +128,14 @@
                 country_id: '',
                 states: '',
                 async countryChange() {
-                    console.log("fi");
+                    console.log(this.country_id);
                     this.result = await (await fetch('/countries/'+ this.country_id, {
                     method: 'GET',
                     headers: {
                         'Content-type': 'application/json;',
                     },
                     })).json();
+                    
                     this.states = this.result;
                     console.log(this.states);
                 },
