@@ -156,22 +156,32 @@
 
                 searchByDate(){
                     let dt = this.allData;
-                    
+                    this.filterData = this.allData;
 
-                    if (this.fromDate != '' && this.fromDate != null) {                        
-                    console.log( this.fromDate );
+                    for (let i = 0; i < this.filterData.length; i++) {
+                        for (let p in this.filterData[i]) {
+                            this.min = false;
+                            this.max = false;
+                            if (this.fromDate != '' && this.fromDate != null) {   
+                               
 
-                        dt = dt.filter((d) => d.dob >= this.fromDate);
+                                if(moment(this.filterData[i]['dob']).isSameOrAfter(this.fromDate)){
+                                    this.min = true;
+                                }  
+                            }
 
-                    }
+                            if (this.toDate != '' && this.toDate != null) {
+                                if(moment(this.filterData[i]['dob']).isSameOrBefore(this.toDate)){
+                                    this.max = true;                                    
+                                }  
+                            }
 
-                    if (this.toDate != '' && this.toDate != null) {
-                        dt = dt.filter((d) => d.dob <= this.toDate);
-                    }
+                            if(this.min == true ){
 
-
-                    this.filterData = dt;
-                    console.log(dt);                 
+                            }
+                           
+                        }
+                    }    
 
                     
                 },

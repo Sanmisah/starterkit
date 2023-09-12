@@ -50,6 +50,13 @@
             <table  id="myTable" class="whitespace-nowrap"></table>
         </div>
     </div>
+    <div x-data="{ open: false }">
+        <input type="checkbox" @click="open = ! open" >
+    
+        <div x-show="open">
+            Content...
+        </div>
+    </div>
 
     <script>
         document.addEventListener("alpine:init", () => {
@@ -81,8 +88,6 @@
                 datatable: null,
                 rangeChange() {
                     let dt = this.allData;
-                    console.log( this.allData);
-                    console.log( dt);
 
 
                     if (this.fromDate != '' && this.fromDate != null) {
@@ -95,7 +100,6 @@
 
 
                     this.filterData = dt;
-                    console.log( this.filterData);
 
                     this.dataArr = [];
                     this.setTableData();

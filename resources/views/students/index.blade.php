@@ -3,17 +3,7 @@
 
     <div x-data="multicolumn">
         <div class="flex items-center gap-3">
-            <div>
-                <input type="date" id="fromDate" type="text" placeholder="From Date..." class="form-input"
-                    x-model="fromDate" />
-            </div>
-            <div >
-                <input type="date" id="toDate" type="text" placeholder="To Date..." class="form-input"
-                    x-model="toDate"  />
-            </div>
-            <div>
-                <button type="submit" class="btn btn-primary" x-on:click="searchByDate()">Search</button>
-            </div>
+           
             <x-add-button :link="route('students.create')" :text="'Student'"/>
         </div>
         <div class="panel mt-6 table-responsive">
@@ -51,24 +41,7 @@
             Alpine.data("multicolumn", () => ({
                 datatable: null,
                 fromDate: ' ',
-                toDate: ' ',
-                allData: [
-                    @if(!empty($students))
-                    @foreach($students as $student)
-                    {                                  
-                        name: '{{ $student->name }}',
-                        email:  '{{ $student->email }}',
-                        mobile: '{{ $student->mobile }}', 
-                        address: '{{ $student->address }}',
-                        gender: '{{ $student->gender }}', 
-                        dob: '{{ $student->dob }}',
-                    },
-                
-                    @endforeach
-                    @endif
-                ],
-
-                             
+                toDate: ' ',                             
                 init() {
                     flatpickr(document.getElementById('fromDate'), {
                         dateFormat: 'd/m/Y',
@@ -104,27 +77,7 @@
                     })
                 },
 
-                searchByDate(){
-                    let dt = this.allData;
-                    
-
-                    if (this.fromDate != '' && this.fromDate != null) {                        
-                    console.log( this.fromDate );
-
-                        dt = dt.filter((d) => d.dob >= this.fromDate);
-
-                    }
-
-                    if (this.toDate != '' && this.toDate != null) {
-                        dt = dt.filter((d) => d.dob <= this.toDate);
-                    }
-
-
-                    this.filterData = dt;
-                    console.log(dt);                 
-
-                    
-                },
+                
             }));
         });
     </script>

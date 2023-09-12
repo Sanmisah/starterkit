@@ -128,6 +128,7 @@
     <script src="/assets/js/flatpickr.js"></script>
     <script src="/assets/js/nice-select2.js"></script>
     <script src="/assets/js/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 </body>
 
 </html>
